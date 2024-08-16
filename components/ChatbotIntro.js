@@ -10,14 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlinePlayCircle } from "react-icons/ai";
 
-const ChatbotIntro = () => {
+const ChatBotIntro = () => {
   return (
     <Flex
       align="center"
       justify="center"
       height="80vh"
       px="4"
-      bg="linear-gradient(to right, black, red)"
+      bg="linear-gradient(to right, black)"
       color="white"
     >
       <Flex
@@ -73,4 +73,4 @@ const ChatbotIntro = () => {
   );
 };
 
-export default ChatbotIntro;
+export default ChatBotIntro;
