@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -12,13 +13,29 @@ import {
 import { FaUserMd, FaMapMarkerAlt, FaRegClipboard } from "react-icons/fa";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-// Typewriter animation keyframes
+// Typing animation keyframes
 const typing = keyframes`
-  0%, 100% { width: 0; }
-  50% { width: 100%; }
+  from {
+    width: 0;
+    border-right: 4px solid white;
+  }
+  to {
+    width: 100%;
+    border-right: none;
+  }
 `;
 
 export default function HeroSection() {
+  const [borderRight, setBorderRight] = useState("4px solid white");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setBorderRight("none");
+    }, 5000); // Change the duration to match the animation duration plus any delay
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Box position="relative" height="100vh" overflow="hidden" color="white">
       {/* Background Video */}
@@ -48,25 +65,37 @@ export default function HeroSection() {
         justifyContent="center"
         textAlign="center"
         px={4}
+        pt={[16, 0]} // Adjusts padding top for smaller screens
       >
         {/* Search Bar */}
         <Flex
-          mb={8}
+          mb={[4, 8]}
           direction={["column", "row"]}
-          maxW="md"
+          maxW={{ base: "sm", md: "lg" }}
           width="100%"
           alignItems="center"
-          position="absolute"
-          top={8}
+          position="relative" // Adjusted to relative from absolute
+          zIndex={1}
         >
           <Input
-            placeholder="Enter a doctor, specialty, or condition"
+            placeholder="Enter a doctor, specialty, or condition !"
             size="lg"
             borderRadius="md"
             bg="white"
             color="gray.700"
             mb={[4, 0]}
             flex={1}
+            padding="10px 3px"
+            width={{ base: "330px", md: "lg" }}
+            textAlign="center"
+            _focus={{
+              outline: "none",
+              border:"none"
+            }}
+            _active={{
+              outline:'none',
+              border:"none"
+            }}
           />
           <Button
             colorScheme="green"
@@ -74,22 +103,25 @@ export default function HeroSection() {
             ml={[0, 2]}
             _hover={{ bg: "green.600" }}
             rightIcon={<ArrowForwardIcon />}
-          />
+          >
+            Search
+          </Button>
         </Flex>
 
         {/* Main Heading with Typewriter Animation */}
-        <Stack spacing={4} mb={8} textAlign="center">
+        <Stack spacing={4} mb={[6, 8]} textAlign="center">
           <Heading
             as="h1"
             fontSize={["3xl", "4xl", "5xl"]}
             fontWeight="bold"
             overflow="hidden"
             whiteSpace="nowrap"
-            borderRight="4px solid"
+            borderRight={borderRight}
             borderColor="white"
             width="fit-content"
             margin="0 auto"
-            animation={`${typing} 4s steps(40) infinite`}
+            animation={`${typing} 4s steps(40)`}
+            animationFillMode="forwards"
           >
             Vitality AI
           </Heading>
@@ -116,14 +148,15 @@ export default function HeroSection() {
             py={8}
             flex={1}
             borderRadius="md"
-            height={{ base: "", md: "250px" }}
+            height={{ base: "auto", md: "250px" }}
+            mb={[4, 0]}
           >
-            <Icon as={FaUserMd} boxSize={10} mb={4} />
-            <Text fontWeight="400" fontSize="28px">
+            <Icon as={FaUserMd} boxSize={[8, 10]} mb={4} />
+            <Text fontWeight="400" fontSize={["24px", "28px"]}>
               Find A Doctor
             </Text>
-            <Text fontSize="md">
-              Easily search for a doctor based on specialty and location.
+            <Text fontSize={{ base: "sm", md: "md" }} textAlign="center">
+              Search doctors by specialty and location.
             </Text>
           </Button>
 
@@ -131,7 +164,7 @@ export default function HeroSection() {
             bg="red.500"
             color="white"
             size="lg"
-            height={{ base: "", md: "250px" }}
+            height={{ base: "auto", md: "250px" }}
             _hover={{ bg: "red.600" }}
             display="flex"
             flexDirection="column"
@@ -139,20 +172,21 @@ export default function HeroSection() {
             py={8}
             flex={1}
             borderRadius="md"
+            mb={[4, 0]}
           >
-            <Icon as={FaMapMarkerAlt} boxSize={10} mb={4} />
-            <Text fontWeight="400" fontSize="28px">
+            <Icon as={FaMapMarkerAlt} boxSize={[8, 10]} mb={4} />
+            <Text fontWeight="400" fontSize={["24px", "28px"]}>
               Find Health Care Near You
             </Text>
-            <Text fontSize="md">
-              Locate the nearest health care facilities in your area.
+            <Text fontSize={{ base: "sm", md: "md" }} textAlign="center">
+              Discover nearby health care facilities.
             </Text>
           </Button>
 
           <Button
             bg="yellow.500"
             color="white"
-            height={{ base: "", md: "250px" }}
+            height={{ base: "auto", md: "250px" }}
             size="lg"
             _hover={{ bg: "yellow.600" }}
             display="flex"
@@ -162,11 +196,11 @@ export default function HeroSection() {
             flex={1}
             borderRadius="md"
           >
-            <Icon as={FaRegClipboard} boxSize={10} mb={4} />
-            <Text fontWeight="400" fontSize="28px">
-              Manage Your Health Information <br /> Online
+            <Icon as={FaRegClipboard} boxSize={[8, 10]} mb={4} />
+            <Text fontWeight="400" fontSize={["24px", "28px"]}>
+              Go to Health Portal
             </Text>
-            <Text fontSize="md">
+            <Text fontSize={{ base: "sm", md: "md" }} textAlign="center">
               Access and manage your health records from anywhere.
             </Text>
           </Button>
@@ -179,7 +213,7 @@ export default function HeroSection() {
         bottom={4}
         right={4}
         colorScheme="red"
-        size="lg"
+        size={["md", "lg"]}
         borderRadius="full"
         boxShadow="lg"
         _hover={{ bg: "red.600" }}
