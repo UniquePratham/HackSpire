@@ -1,6 +1,7 @@
 import Head from "next/head";
 import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
+import ChatbotIntro from "@/components/ChatBotIntro";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       </Head>
       <Navbar />
       <HeroSection />
+      <ChatbotIntro />
     </>
   );
 }
