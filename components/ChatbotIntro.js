@@ -1,5 +1,3 @@
-// ChatbotIntro.js
-
 import React from "react";
 import {
   Flex,
@@ -19,7 +17,7 @@ const ChatbotIntro = () => {
       justify="center"
       height="80vh"
       px="4"
-      bg="gray.800"
+      bg="linear-gradient(to right, black, red)"
       color="white"
     >
       <Flex
@@ -47,7 +45,7 @@ const ChatbotIntro = () => {
           </Box>
           <Link href="/bot">
             <Button
-              colorScheme="blue"
+              colorScheme="red"
               leftIcon={<Icon as={AiOutlinePlayCircle} />}
               size="lg"
             >
