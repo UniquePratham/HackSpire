@@ -7,9 +7,6 @@ const Navbar = dynamic(() => import("@/components/Navbar"), {
 const HeroSection = dynamic(() => import("@/components/HeroSection"), {
   ssr: false,
 });
-const ChatbotIntro = dynamic(() => import("@/components/ChatBotIntro"), {
-  ssr: false,
-});
 
 export default function Home() {
   return (
