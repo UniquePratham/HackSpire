@@ -1,7 +1,14 @@
 import Head from "next/head";
-import HeroSection from "@/components/HeroSection";
-import Navbar from "@/components/Navbar";
-import ChatbotIntro from "@/components/ChatBotIntro";
+import dynamic from "next/dynamic";
+const Navbar = dynamic(() => import("@/components/Navbar"), {
+  ssr: false,
+});
+const HeroSection = dynamic(() => import("@/components/HeroSection"), {
+  ssr: false,
+});
+const ChatbotIntro = dynamic(() => import("@/components/ChatbotIntro"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
