@@ -109,7 +109,7 @@ export default function Navbar() {
       {/* Mobile Menu Links */}
       <Collapse in={isOpen} animateOpacity>
         <ScaleFade initialScale={0.9} in={isOpen}>
-          <VStack as="nav" spacing={4} mt={4} display={{ md: "none" }}>
+          <VStack as="nav" spacing={4} mt={4} display={{ base:"flex",md: "none" }} flexDirection="column">
             <NextLink href="/womenchildren" passHref>
               <Link _hover={{ color: "green.300", transition: "color 0.3s" }}>
                 Women & Children
