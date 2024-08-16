@@ -24,7 +24,6 @@ export default function Home() {
       </Head>
       <Navbar />
       <HeroSection />
-      <ChatbotIntro />
       <Footer />
     </>
   );
