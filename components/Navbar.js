@@ -98,6 +98,7 @@ export default function Navbar() {
             size="sm"
             variant="outline"
             colorScheme="whiteAlpha"
+            color="white"
             _hover={{ bg: "whiteAlpha.300" }}
             transition="background-color 0.3s"
           >
