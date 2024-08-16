@@ -114,17 +114,23 @@ export default function HeroSection() {
               Stay updated with the latest technology in Medicine.
             </Text>
           </VStack>
-          <HStack>
+          <HStack
+            flexDirection={{ base: "column", md: "row" }}
+            alignItems={{ base: "center", md: "flex-start" }}
+            spacing={{ base: 2, md: 4 }}
+            width="680px"
+          >
             <Input
               placeholder="Enter a doctor, specialty, or condition!"
               size="lg"
+              fontSize={{base:"md",md:"lg"}}
               borderRadius="md"
               bg="white"
               color="gray.700"
-              mb={[4, 0]}
+              mb={{ base: 2, md: 0 }}
+              padding="10px 20px"
               flex={1}
-              padding="10px 3px"
-              width={{ base: "330px", md: "lg" }}
+              width={{ base: "95vw", md: "90vw" }}
               textAlign="center"
               _focus={{
                 outline: "none",
@@ -141,7 +147,9 @@ export default function HeroSection() {
             <Button
               colorScheme="green"
               size="lg"
-              ml={{ base: 2, md: 0 }}
+              width={{ base: "20%", md: "auto" }}
+              ml={{ base: 0, md: 1 }}
+              mt={{ base: 2, md: 0 }}
               _hover={{ bg: "green.600", transform: "scale(1.05)" }}
               _active={{ bg: "green.700" }}
               transition="transform 0.3s ease, background-color 0.3s ease"
