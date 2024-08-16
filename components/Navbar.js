@@ -19,12 +19,12 @@ export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box bg="blackAlpha.800" px={4} py={3} color="white" w="full">
+    <Box bg="black" px={4} py={3} color="white" w="full">
       <Flex alignItems="center" justifyContent="space-between">
         {/* Logo */}
         <NextLink href="/" passHref>
           <Link>
-            <Image src="/logo.png" alt="MERCYHEALTH Logo" boxSize="40px" />
+            <Image src="/logo.png" alt="VitalityAi Logo" width="150px" />
           </Link>
         </NextLink>
 
@@ -83,7 +83,7 @@ export default function Navbar() {
           </NextLink>
           <NextLink href="/aichatbot" passHref>
             <Link bg="gold" color="black" px={4} py={2} borderRadius="md">
-              AI ChatBot AI ChatBot
+              AI ChatBot
             </Link>
           </NextLink>
           <NextLink href="/contactus" passHref>
