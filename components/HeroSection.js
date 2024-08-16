@@ -38,7 +38,12 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <Box position="relative" height="100vh" overflow="hidden" color="white">
+    <Box
+      position="relative"
+      height={{ base: "110vh", md: "100vh" }}
+      overflow="hidden"
+      color="white"
+    >
       {/* Background Video */}
       <video
         autoPlay
@@ -136,7 +141,7 @@ export default function HeroSection() {
             <Button
               colorScheme="green"
               size="lg"
-              ml={{ base: 2 ,md: 0}}
+              ml={{ base: 2, md: 0 }}
               _hover={{ bg: "green.600", transform: "scale(1.05)" }}
               _active={{ bg: "green.700" }}
               transition="transform 0.3s ease, background-color 0.3s ease"
