@@ -9,35 +9,16 @@ import {
   Icon,
   keyframes,
 } from "@chakra-ui/react";
-import {
-  FaUserMd,
-  FaMapMarkerAlt,
-  FaRegClipboard,
-  FaAmbulance,
-} from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { FaUserMd, FaMapMarkerAlt, FaRegClipboard } from "react-icons/fa";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-// Typewriter animation
+// Typewriter animation keyframes
 const typing = keyframes`
-  from { width: 0; }
-  to { width: 100%; }
+  0%, 100% { width: 0; }
+  50% { width: 100%; }
 `;
 
 export default function HeroSection() {
-  const [showEmergencyButton, setShowEmergencyButton] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowEmergencyButton(true);
-      } else {
-        setShowEmergencyButton(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <Box position="relative" height="100vh" overflow="hidden" color="white">
       {/* Background Video */}
@@ -76,8 +57,7 @@ export default function HeroSection() {
           width="100%"
           alignItems="center"
           position="absolute"
-          top={10}
-          zIndex={2}
+          top={8}
         >
           <Input
             placeholder="Enter a doctor, specialty, or condition"
@@ -93,9 +73,8 @@ export default function HeroSection() {
             size="lg"
             ml={[0, 2]}
             _hover={{ bg: "green.600" }}
-          >
-            →
-          </Button>
+            rightIcon={<ArrowForwardIcon />}
+          />
         </Flex>
 
         {/* Main Heading with Typewriter Animation */}
@@ -106,9 +85,11 @@ export default function HeroSection() {
             fontWeight="bold"
             overflow="hidden"
             whiteSpace="nowrap"
-            borderRight="3px solid"
+            borderRight="4px solid"
+            borderColor="white"
             width="fit-content"
-            animation={`${typing} 3.5s steps(30, end) 1, blink-caret .75s step-end infinite`}
+            margin="0 auto"
+            animation={`${typing} 4s steps(40) infinite`}
           >
             Vitality AI
           </Heading>
@@ -117,7 +98,7 @@ export default function HeroSection() {
           </Text>
         </Stack>
 
-        {/* Action Buttons - In a Row with Spacing */}
+        {/* Action Buttons */}
         <Flex
           direction={["column", "row"]}
           width="100%"
@@ -183,7 +164,7 @@ export default function HeroSection() {
           >
             <Icon as={FaRegClipboard} boxSize={10} mb={4} />
             <Text fontWeight="400" fontSize="28px">
-              Manage Your Health Information Online
+              Manage Your Health Information <br /> Online
             </Text>
             <Text fontSize="md">
               Access and manage your health records from anywhere.
@@ -193,22 +174,18 @@ export default function HeroSection() {
       </Box>
 
       {/* Floating Emergency Button */}
-      {showEmergencyButton && (
-        <Button
-          position="fixed"
-          bottom={4}
-          right={4}
-          bg="red.600"
-          color="white"
-          size="lg"
-          borderRadius="full"
-          boxShadow="lg"
-          _hover={{ bg: "red.700" }}
-          leftIcon={<FaAmbulance />}
-        >
-          Have an Emergency?
-        </Button>
-      )}
+      <Button
+        position="fixed"
+        bottom={4}
+        right={4}
+        colorScheme="red"
+        size="lg"
+        borderRadius="full"
+        boxShadow="lg"
+        _hover={{ bg: "red.600" }}
+      >
+        Have an Emergency?
+      </Button>
     </Box>
   );
 }
