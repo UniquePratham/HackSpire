@@ -4,7 +4,8 @@ import {
   Button,
   Flex,
   Heading,
-  Stack,
+  VStack,
+  HStack,
   Text,
   Input,
   Icon,
@@ -58,7 +59,7 @@ export default function HeroSection() {
       <Box
         position="absolute"
         inset="0"
-        bg="blackAlpha.700"
+        bg="blackAlpha.600"
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -67,77 +68,86 @@ export default function HeroSection() {
         px={4}
         pt={[16, 0]}
         transition="background-color 0.3s ease-in-out"
-        _hover={{ bg: "blackAlpha.800" }}
+        // _hover={{ bg: "blackAlpha.800" }}
       >
         {/* Search Bar */}
         <Flex
           mb={[4, 8]}
-          direction={["column", "row"]}
+          direction={["column", "column"]}
           maxW={{ base: "sm", md: "lg" }}
           width="100%"
           alignItems="center"
           position="relative"
           zIndex={1}
         >
-          <Input
-            placeholder="Enter a doctor, specialty, or condition!"
-            size="lg"
-            borderRadius="md"
-            bg="white"
-            color="gray.700"
-            mb={[4, 0]}
-            flex={1}
-            padding="10px 3px"
-            width={{ base: "330px", md: "lg" }}
-            textAlign="center"
-            _focus={{
-              outline: "none",
-              border: "2px solid rgba(255,255,255,0.6)",
-              boxShadow: "0 0 0 1px rgba(255,255,255,0.5)",
-            }}
-            _active={{
-              outline: "none",
-              border: "2px solid rgba(255,255,255,0.6)",
-              boxShadow: "0 0 0 1px rgba(255,255,255,0.5)",
-            }}
-            transition="border-color 0.3s ease, box-shadow 0.3s ease"
-          />
-          <Button
-            colorScheme="green"
-            size="lg"
-            ml={[0, 2]}
-            _hover={{ bg: "green.600", transform: "scale(1.05)" }}
-            _active={{ bg: "green.700" }}
-            transition="transform 0.3s ease, background-color 0.3s ease"
-            rightIcon={<ArrowForwardIcon />}
-          >
-            Search
-          </Button>
+          <VStack spacing={4} mb={[6, 8]} textAlign="center">
+            <Heading
+              as="h1"
+              pb={-4}
+              fontSize={["5xl", "6xl", "7xl"]}
+              fontWeight="300"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              borderRight={borderRight}
+              borderColor="white"
+              width="fit-content"
+              margin="0 auto"
+              animation={`${typing} 4s steps(40)`}
+              animationFillMode="forwards"
+              transition="transform 0.3s ease, color 0.3s ease"
+              _hover={{ color: "cyan", transform: "scale(1.05)" }}
+              cursor="pointer"
+            >
+              Vitality AI
+            </Heading>
+            <Text
+              fontSize={["lg", "xl"]}
+              transition="color 0.3s ease"
+              _hover={{ color: "teal.300" }}
+              pb={5}
+            >
+              Stay updated with the latest technology in Medicine.
+            </Text>
+          </VStack>
+          <HStack>
+            <Input
+              placeholder="Enter a doctor, specialty, or condition!"
+              size="lg"
+              borderRadius="md"
+              bg="white"
+              color="gray.700"
+              mb={[4, 0]}
+              flex={1}
+              padding="10px 3px"
+              width={{ base: "330px", md: "lg" }}
+              textAlign="center"
+              _focus={{
+                outline: "none",
+                border: "2px solid rgba(255,255,255,0.6)",
+                boxShadow: "0 0 0 1px rgba(255,255,255,0.5)",
+              }}
+              _active={{
+                outline: "none",
+                border: "2px solid rgba(255,255,255,0.6)",
+                boxShadow: "0 0 0 1px rgba(255,255,255,0.5)",
+              }}
+              transition="border-color 0.3s ease, box-shadow 0.3s ease"
+            />
+            <Button
+              colorScheme="green"
+              size="lg"
+              ml={{ base: 2 ,md: 0}}
+              _hover={{ bg: "green.600", transform: "scale(1.05)" }}
+              _active={{ bg: "green.700" }}
+              transition="transform 0.3s ease, background-color 0.3s ease"
+              rightIcon={<ArrowForwardIcon />}
+            >
+              Search
+            </Button>
+          </HStack>
         </Flex>
 
         {/* Main Heading with Typewriter Animation */}
-        <Stack spacing={4} mb={[6, 8]} textAlign="center">
-          <Heading
-            as="h1"
-            fontSize={["3xl", "4xl", "5xl"]}
-            fontWeight="bold"
-            overflow="hidden"
-            whiteSpace="nowrap"
-            borderRight={borderRight}
-            borderColor="white"
-            width="fit-content"
-            margin="0 auto"
-            animation={`${typing} 4s steps(40)`}
-            animationFillMode="forwards"
-            transition="transform 0.3s ease, color 0.3s ease"
-            _hover={{ color: "teal.400", transform: "scale(1.05)" }}
-          >
-            Vitality AI
-          </Heading>
-          <Text fontSize={["lg", "xl"]} transition="color 0.3s ease" _hover={{ color: "teal.300" }}>
-            Stay updated with the latest technology in Medicine.
-          </Text>
-        </Stack>
 
         {/* Action Buttons */}
         <Flex
