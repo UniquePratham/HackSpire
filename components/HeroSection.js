@@ -40,7 +40,7 @@ export default function HeroSection() {
   return (
     <Box
       position="relative"
-      height={{ base: "110vh", md: "100vh" }}
+      height={{ base: "130vh", md: "100vh" }}
       overflow="hidden"
       color="white"
     >
@@ -123,7 +123,7 @@ export default function HeroSection() {
             <Input
               placeholder="Enter a doctor, specialty, or condition!"
               size="lg"
-              fontSize={{base:"md",md:"lg"}}
+              fontSize={{ base: "md", md: "lg" }}
               borderRadius="md"
               bg="white"
               color="gray.700"
@@ -222,7 +222,7 @@ export default function HeroSection() {
           <Button
             bg="yellow.500"
             color="white"
-            height={{ base: "auto", md: "250px" }}
+            height={{ base: "20vh", md: "250px" }}
             size="lg"
             _hover={{ bg: "yellow.600", transform: "scale(1.05)" }}
             _active={{ bg: "yellow.700" }}
@@ -239,7 +239,7 @@ export default function HeroSection() {
               Go to Health Portal
             </Text>
             <Text fontSize={{ base: "sm", md: "md" }} textAlign="center">
-              Access and manage your health records from anywhere.
+              Manage health records anywhere.
             </Text>
           </Button>
         </Flex>

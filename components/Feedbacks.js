@@ -38,7 +38,6 @@ const Feedbacks = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const visibleCount = 3;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -58,16 +57,28 @@ const Feedbacks = () => {
   };
 
   const feedbackSize = useBreakpointValue({
-    base: "90%",
-    md: "45%",
+    base: "90%", // On smaller screens, take most of the screen width
+    md: "45%",   // On medium screens, reduce the width
+  });
+
+  const feedbackSpacing = useBreakpointValue({
+    base: 4,     // Closer spacing on smaller screens
+    md: 8,       // Wider spacing on medium and larger screens
   });
 
   return (
-    <Box bg="gray.100" color="gray.700" px={10} pt={5} pb="80px" textAlign="center">
-      <Heading fontSize="6xl" fontWeight="300" mb={10}>
+    <Box bg="gray.100" color="gray.700" px={4} py={10} textAlign="center">
+      <Heading fontSize={["2xl", "4xl", "5xl"]} fontWeight="300" mb={10}>
         Client Feedbacks
       </Heading>
-      <HStack spacing={8} justify="center" position="relative">
+
+      {/* Feedbacks Container */}
+      <HStack
+        spacing={feedbackSpacing}
+        justify="center"
+        position="relative"
+        flexWrap="wrap" // Allow wrapping on smaller screens
+      >
         {feedbacks.map((feedback, index) => {
           const position = getFeedbackPosition(index);
           const isCenter = position === "center";
@@ -83,7 +94,7 @@ const Feedbacks = () => {
               position="relative"
               transform={
                 isCenter
-                  ? "scale(1.2)"
+                  ? "scale(1.1)"
                   : position === "side"
                   ? "scale(0.9)"
                   : "scale(0)"
@@ -91,16 +102,18 @@ const Feedbacks = () => {
               opacity={position === "hidden" ? 0 : 1}
               transition="transform 0.5s ease, opacity 0.5s ease"
               zIndex={isCenter ? 2 : 1}
-              width={isCenter ? "30%" : "25%"}
+              width={feedbackSize}
               display={position === "hidden" ? "none" : "block"}
             >
               <HStack justify="center">
                 <Avatar name={feedback.name} />
-                <Text fontWeight="bold">{feedback.name}</Text>
+                <Text fontWeight="bold" fontSize={["sm", "md"]}>
+                  {feedback.name}
+                </Text>
               </HStack>
               <HStack>
-                <Icon as={FaQuoteLeft} color="gray.500" boxSize={6} />
-                <Text fontSize={isCenter ? "lg" : "md"}>
+                <Icon as={FaQuoteLeft} color="gray.500" boxSize={[5, 6]} />
+                <Text fontSize={["sm", "md", "lg"]}>
                   {feedback.feedback}
                 </Text>
               </HStack>
