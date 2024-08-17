@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }) {
           name="description"
           content="VitalityAI - Medical technology for the future"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
       <Component {...pageProps} />
     </ChakraProvider>

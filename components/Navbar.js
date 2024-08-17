@@ -13,9 +13,15 @@ import {
 } from "@chakra-ui/react";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const router = useRouter();
+
+  const handleDonateClick = () => {
+    router.push("/donate");
+  };
 
   return (
     <Box bg="gray.700" px={4} py={5} color="white" w="full">
@@ -101,6 +107,7 @@ export default function Navbar() {
             color="white"
             _hover={{ bg: "whiteAlpha.300" }}
             transition="background-color 0.3s"
+            onClick={handleDonateClick} // Link to Donate page
           >
             Donate
           </Button>
@@ -110,7 +117,13 @@ export default function Navbar() {
       {/* Mobile Menu Links */}
       <Collapse in={isOpen} animateOpacity>
         <ScaleFade initialScale={0.9} in={isOpen}>
-          <VStack as="nav" spacing={4} mt={4} display={{ base:"flex",md: "none" }} flexDirection="column">
+          <VStack
+            as="nav"
+            spacing={4}
+            mt={4}
+            display={{ base: "flex", md: "none" }}
+            flexDirection="column"
+          >
             <NextLink href="/womenchildren" passHref>
               <Link _hover={{ color: "green.300", transition: "color 0.3s" }}>
                 Women & Children
@@ -166,6 +179,7 @@ export default function Navbar() {
               colorScheme="whiteAlpha"
               _hover={{ bg: "whiteAlpha.300" }}
               transition="background-color 0.3s"
+              onClick={handleDonateClick} // Link to Donate page
             >
               Donate
             </Button>

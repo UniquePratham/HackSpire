@@ -1,11 +1,11 @@
-// components/Donate.js
+// components/PayThroughPayPal.js
 
 import React from "react";
 import { Flex, Box, Heading, Text, Button } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 
-const Donate = () => {
+const PayThroughPayPal = () => {
   const router = useRouter();
 
   const handleCheckout = () => {
@@ -24,10 +24,6 @@ const Donate = () => {
       my={10}
     >
       <Box mb={4}>
-        <Box textAlign="center">or</Box>
-        <Heading as="h2" size="2xl" mt={10} fontWeight="300" mb={5}>
-          Pay Through PayPal
-        </Heading>
         <Text fontSize="md" textAlign="center" color="gray.600">
           Secure international payments with PayPal.
         </Text>
@@ -55,4 +51,4 @@ const Donate = () => {
   );
 };
 
-export default Donate;
+export default PayThroughPayPal;
