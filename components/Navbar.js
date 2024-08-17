@@ -62,7 +62,7 @@ export default function Navbar() {
               Cardiometer
             </Link>
           </NextLink>
-          <NextLink href="/aichatbot" passHref>
+          <NextLink href="/chatbot" passHref>
             <Link
               bg="gold"
               color="black"

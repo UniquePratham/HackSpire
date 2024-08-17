@@ -29,7 +29,13 @@ const PayThroughPayPal = () => {
       height="85vh"
     >
       <Box mb={4}>
-        <Text fontSize="md" textAlign="center" color="gray.600">
+        <Text
+          fontSize="2xl"
+          textAlign="center"
+          color="black"
+          fontWeight="bolder"
+          textShadow="2px 2px 5px rgba(0,0,0,0.4)"
+        >
           Secure international payments with PayPal.
         </Text>
       </Box>
