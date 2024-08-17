@@ -21,14 +21,45 @@ const Donate = () => {
       //   border="1px solid #ccc"
       //   borderRadius="lg"
       //   boxShadow="md"
-      my={10}
+      bgImage="donateBg.png"
+      bgSize="cover"
+      bgPosition="center"
+      bgRepeat="no-repeat"
+      width="100%"
+      height="85vh"
     >
-      <Box mb={4}>
-        <Box textAlign="center">or</Box>
-        <Heading as="h2" size="2xl" mt={10} fontWeight="300" mb={5}>
+      <Box
+        mb={4}
+        display="flex"
+        justifyContent="center"
+        alignItems={"center"}
+        flexDirection="column"
+      >
+        <Box
+          textAlign="center"
+          color="white"
+          fontWeight="bolder"
+          fontSize={{ base: "", md: "20" }}
+          fontFamily="Poppins"
+        >
+          Make a difference in health with a single donation
+        </Box>
+        <Heading
+          as="h2"
+          size={{ base: "xl", md: "2xl" }}
+          mt={6}
+          fontWeight="500"
+          mb={3}
+          textShadow="2px 2px 5px rgba(0,0,0,0.5)"
+        >
           Pay Through PayPal
         </Heading>
-        <Text fontSize="md" textAlign="center" color="gray.600">
+        <Text
+          fontSize="md"
+          textAlign="center"
+          color="whitesmoke"
+          fontWeight="bold"
+        >
           Secure international payments with PayPal.
         </Text>
       </Box>

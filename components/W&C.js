@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/no-unescaped-entities */
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Heading,
@@ -24,10 +25,19 @@ const typing = keyframes`
 `;
 
 const WC = () => {
+  const [borderRight, setBorderRight] = useState("4px solid white");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setBorderRight("none");
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Box
       position="relative"
-      height="100vh"
       display="flex"
       flexDirection="column"
       justifyContent="center"
@@ -35,6 +45,7 @@ const WC = () => {
       textAlign="center"
       overflow="hidden"
       color="white"
+      height={{base:"120vh",md:"100vh"}}
     >
       {/* Background Video */}
       <video
@@ -65,18 +76,18 @@ const WC = () => {
         alignItems="center"
         justifyContent="center"
         textAlign="center"
-        px={4}
-        pt={[16, 0]}
+        px={[4, 6, 8]} // Responsive padding
+        pt={[16, 20]}
         transition="background-color 0.3s ease-in-out"
       >
         {/* Main Heading with Typewriter Animation */}
         <Heading
           as="h1"
-          fontSize={["5xl", "6xl", "7xl"]}
+          fontSize={["3xl", "4xl", "5xl", "6xl"]} // Responsive font size
           fontWeight="300"
           overflow="hidden"
           whiteSpace="nowrap"
-          borderRight="4px solid white"
+          borderRight={borderRight}
           width="fit-content"
           margin="0 auto"
           animation={`${typing} 4s steps(40)`}
@@ -90,31 +101,32 @@ const WC = () => {
 
         {/* Content */}
         <Flex
-          direction={["column", "row"]}
+          direction={["column", "row"]} // Stack on small screens, row on larger screens
           align="center"
           justify="center"
-          spacing={8}
-          mt={8}
+          wrap="wrap"
+          mt={[6, 8]} // Adjust margin top
+          spacing={[4, 6, 8]} // Adjust spacing
         >
           {/* Women's Care Section */}
           <VStack
             bg="blue.500"
             color="white"
-            p={8}
+            p={[4, 6]} // Responsive padding
             borderRadius="md"
             boxShadow="lg"
-            width={{ base: "100%", md: "30%" }}
-            mb={[6, 0]}
+            width={{ base: "90%", md: "400px" }} // Full width on mobile, 30% on larger screens
+            mb={[6, 0]} // Margin bottom on smaller screens
             transition="transform 0.3s ease, background-color 0.3s ease"
             _hover={{ bg: "blue.600", transform: "scale(1.05)" }}
             spacing={4}
-            mr={2}
+            mr={[0, 2]} // Margin right only on larger screens
           >
-            <Icon as={FaFemale} boxSize={10} mb={4} />
-            <Heading size="xl" fontWeight="300" mb={2}>
+            <Icon as={FaFemale} boxSize={[8, 10]} mb={4} /> {/* Responsive icon size */}
+            <Heading size={["md", "lg"]} fontWeight="300" mb={2}>
               Women's Care
             </Heading>
-            <Text>
+            <Text fontSize={["sm", "md"]}>
               Providing comprehensive care for women’s health, including
               gynecological services, reproductive health, and general wellness
               checks.
@@ -125,20 +137,20 @@ const WC = () => {
           <VStack
             bg="yellow.500"
             color="black"
-            p={8}
+            p={[4, 6]} // Responsive padding
             borderRadius="md"
             boxShadow="lg"
-            width={{ base: "100%", md: "30%" }}
-            mb={[6, 0]}
+            width={{ base: "90%", md: "400px" }} // Full width on mobile, 30% on larger screens
+            mb={[6, 0]} // Margin bottom on smaller screens
             transition="transform 0.3s ease, background-color 0.3s ease"
             _hover={{ bg: "yellow.600", transform: "scale(1.05)" }}
             spacing={4}
           >
-            <Icon as={FaChild} boxSize={10} mb={4} />
-            <Heading size="xl" fontWeight="300" mb={2}>
+            <Icon as={FaChild} boxSize={[8, 10]} mb={4} /> {/* Responsive icon size */}
+            <Heading size={["md", "lg"]} fontWeight="300" mb={2}>
               Child Care
             </Heading>
-            <Text>
+            <Text fontSize={["sm", "md"]}>
               From vaccinations to growth monitoring, our specialists ensure
               your child gets the best care during every stage of their
               development.
@@ -149,21 +161,21 @@ const WC = () => {
           <VStack
             bg="red.500"
             color="white"
-            p={8}
+            p={[4, 6]} // Responsive padding
             borderRadius="md"
             boxShadow="lg"
-            width={{ base: "100%", md: "30%" }}
-            mb={[6, 0]}
+            width={{ base: "90%", md: "400px" }} // Full width on mobile, 30% on larger screens
+            mb={[6, 0]} // Margin bottom on smaller screens
             transition="transform 0.3s ease, background-color 0.3s ease"
             _hover={{ bg: "red.600", transform: "scale(1.05)" }}
             spacing={4}
-            ml={2}
+            ml={[0, 2]} // Margin left only on larger screens
           >
-            <Icon as={FaPregnantWoman} boxSize={10} mb={4} />
-            <Heading size="xl" fontWeight="300" mb={2}>
+            <Icon as={FaPregnantWoman} boxSize={[8, 10]} mb={4} /> {/* Responsive icon size */}
+            <Heading size={["md", "lg"]} fontWeight="300" mb={2}>
               Pregnancy Care
             </Heading>
-            <Text>
+            <Text fontSize={["sm", "md"]}>
               Our pregnancy care services provide expectant mothers with the
               support and medical guidance needed for a healthy and safe
               pregnancy journey.
@@ -175,10 +187,10 @@ const WC = () => {
       {/* Floating Emergency Button */}
       <Button
         position="fixed"
-        bottom={4}
-        right={4}
+        bottom={[2, 4]} // Responsive bottom position
+        right={[2, 4]} // Responsive right position
         colorScheme="red"
-        size={["md", "lg"]}
+        size={["md", "lg"]} // Responsive size
         borderRadius="full"
         boxShadow="lg"
         _hover={{ bg: "red.600", transform: "scale(1.1)" }}

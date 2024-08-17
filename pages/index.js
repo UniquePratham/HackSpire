@@ -14,11 +14,10 @@ const Donate = dynamic(() => import("@/components/Donate"), {
 export default function Home() {
   return (
     <>
-      
       <Navbar />
       <HeroSection />
-      <Footer />
       <Donate />
+      <Footer />
     </>
   );
 }
