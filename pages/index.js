@@ -7,21 +7,18 @@ const Navbar = dynamic(() => import("@/components/Navbar"), {
 const HeroSection = dynamic(() => import("@/components/HeroSection"), {
   ssr: false,
 });
+const Donate = dynamic(() => import("@/components/Donate"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>VitalityAI - A new approach to medical technology</title>
-        <meta
-          name="description"
-          content="VitalityAI - Medical technology for the future"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      
       <Navbar />
       <HeroSection />
       <Footer />
+      <Donate />
     </>
   );
 }

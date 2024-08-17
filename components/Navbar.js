@@ -18,12 +18,12 @@ export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box bg="gray.700" px={4} py={3} color="white" w="full">
+    <Box bg="gray.700" px={4} py={5} color="white" w="full">
       <Flex alignItems="center" justifyContent="space-between">
         {/* Logo */}
         <NextLink href="/" passHref>
           <Link>
-            <Image src="/logo.png" alt="VitalityAi Logo" width="150px" />
+            <Image src="/logo.png" alt="VitalityAi Logo" width="100px" />
           </Link>
         </NextLink>
 
