@@ -1,21 +1,32 @@
 // components/UsageSteps.js
-import { Box, Heading, OrderedList, ListItem } from "@chakra-ui/react";
+import { Box, Heading, OrderedList, ListItem, keyframes } from "@chakra-ui/react";
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const slideIn = keyframes`
+  from { opacity: 0; transform: translateX(-100px); }
+  to { opacity: 1; transform: translateX(0); }
+`;
 
 const UsageSteps = () => (
   <Box
     p={8}
     bgGradient="linear(to-r, teal.50, teal.200)"
     borderRadius="lg"
-    boxShadow="md"
+    boxShadow="xl"
     backdropFilter="blur(8px)"
     mb={8}
     maxW="container.md"
     mx="auto"
+    animation={`${fadeIn} 1s ease-out`}
   >
-    <Heading size="lg" mb={6}>
+    <Heading size="lg" mb={6} color="teal.700" animation={`${slideIn} 1.2s ease-in-out`}>
       How to Use CardioQ
     </Heading>
-    <OrderedList spacing={4} fontSize="lg">
+    <OrderedList spacing={4} fontSize="lg" color="gray.700" animation={`${fadeIn} 1.5s ease-out`}>
       <ListItem>
         Wear the device on your wrist or chest before going to sleep.
       </ListItem>
