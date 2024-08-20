@@ -10,6 +10,14 @@ import {
   Input,
   Icon,
   keyframes,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  ModalFooter,
 } from "@chakra-ui/react";
 import { FaUserMd, FaMapMarkerAlt, FaRegClipboard } from "react-icons/fa";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
@@ -28,6 +36,7 @@ const typing = keyframes`
 
 export default function HeroSection() {
   const [borderRight, setBorderRight] = useState("4px solid white");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -73,7 +82,6 @@ export default function HeroSection() {
         px={4}
         pt={[16, 0]}
         transition="background-color 0.3s ease-in-out"
-        // _hover={{ bg: "blackAlpha.800" }}
       >
         {/* Search Bar */}
         <Flex
@@ -159,8 +167,6 @@ export default function HeroSection() {
             </Button>
           </HStack>
         </Flex>
-
-        {/* Main Heading with Typewriter Animation */}
 
         {/* Action Buttons */}
         <Flex
@@ -257,9 +263,52 @@ export default function HeroSection() {
         _hover={{ bg: "red.600", transform: "scale(1.1)" }}
         _active={{ bg: "red.700" }}
         transition="transform 0.3s ease, background-color 0.3s ease"
+        onClick={onOpen}
       >
         Have an Emergency?
       </Button>
+
+      {/* Emergency Modal */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Emergency Options</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text mb={4}>
+              If you have an emergency, you can call 911 or send an SMS.
+            </Text>
+            <Button
+              as="a"
+              href="tel:911"
+              colorScheme="red"
+              size="lg"
+              width="full"
+              mb={4}
+              _hover={{ bg: "red.600", transform: "scale(1.05)" }}
+              _active={{ bg: "red.700" }}
+            >
+              Call 911
+            </Button>
+            <Button
+              as="a"
+              href="sms:911?body=Emergency! Please send an ambulance."
+              colorScheme="teal"
+              size="lg"
+              width="full"
+              _hover={{ bg: "teal.600", transform: "scale(1.05)" }}
+              _active={{ bg: "teal.700" }}
+            >
+              Send SMS
+            </Button>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
