@@ -78,7 +78,7 @@ const FAQ = () => {
     <Box
       bg="linear-gradient(to bottom, #fff8e1, #fffde7)"
       p={8}
-      ml={{ base: "0px", md: "100px" }}
+    //   ml={{ base: "0px", md: "100px" }}
       display="flex"
       justifyContent="center"
       alignItems="center"
