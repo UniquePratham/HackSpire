@@ -1,8 +1,12 @@
 // pages/cardiometer.js
 import { Box } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
+import dynamic from "next/dynamic";
+const Navbar = dynamic(() => import("@/components/Navbar"), {
+  ssr: false,
+});
 import DeviceIntro from "../components/DeviceIntro";
 import UsageSteps from "../components/UsageSteps";
+import Footer from "../components/Footer";
 
 const CardiometerPage = () => (
   <Box>
@@ -11,6 +15,7 @@ const CardiometerPage = () => (
       <DeviceIntro />
       <UsageSteps />
     </Box>
+    <Footer />
   </Box>
 );
 
