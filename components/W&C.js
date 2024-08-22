@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -9,6 +8,14 @@ import {
   Button,
   Icon,
   keyframes,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  ModalFooter,
 } from "@chakra-ui/react";
 import { FaFemale, FaChild, FaPregnantWoman } from "react-icons/fa";
 
@@ -26,6 +33,7 @@ const typing = keyframes`
 
 const WC = () => {
   const [borderRight, setBorderRight] = useState("4px solid white");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -45,7 +53,7 @@ const WC = () => {
       textAlign="center"
       overflow="hidden"
       color="white"
-      height={{base:"120vh",md:"100vh"}}
+      height={{ base: "120vh", md: "100vh" }}
     >
       {/* Background Video */}
       <video
@@ -122,14 +130,14 @@ const WC = () => {
             spacing={4}
             mr={[0, 2]} // Margin right only on larger screens
           >
-            <Icon as={FaFemale} boxSize={[8, 10]} mb={4} /> {/* Responsive icon size */}
+            <Icon as={FaFemale} boxSize={[8, 10]} mb={4} />{" "}
+            {/* Responsive icon size */}
             <Heading size={["md", "lg"]} fontWeight="300" mb={2}>
               Women's Care
             </Heading>
             <Text fontSize={["sm", "md"]}>
-              Providing comprehensive care for women’s health, including
-              gynecological services, reproductive health, and general wellness
-              checks.
+              Comprehensive care for women’s health, including gynecological
+              services, reproductive health, and general wellness checks.
             </Text>
           </VStack>
 
@@ -146,7 +154,8 @@ const WC = () => {
             _hover={{ bg: "yellow.600", transform: "scale(1.05)" }}
             spacing={4}
           >
-            <Icon as={FaChild} boxSize={[8, 10]} mb={4} /> {/* Responsive icon size */}
+            <Icon as={FaChild} boxSize={[8, 10]} mb={4} />{" "}
+            {/* Responsive icon size */}
             <Heading size={["md", "lg"]} fontWeight="300" mb={2}>
               Child Care
             </Heading>
@@ -171,7 +180,8 @@ const WC = () => {
             spacing={4}
             ml={[0, 2]} // Margin left only on larger screens
           >
-            <Icon as={FaPregnantWoman} boxSize={[8, 10]} mb={4} /> {/* Responsive icon size */}
+            <Icon as={FaPregnantWoman} boxSize={[8, 10]} mb={4} />{" "}
+            {/* Responsive icon size */}
             <Heading size={["md", "lg"]} fontWeight="300" mb={2}>
               Pregnancy Care
             </Heading>
@@ -187,18 +197,61 @@ const WC = () => {
       {/* Floating Emergency Button */}
       <Button
         position="fixed"
-        bottom={[2, 4]} // Responsive bottom position
-        right={[2, 4]} // Responsive right position
+        bottom={4}
+        right={4}
         colorScheme="red"
-        size={["md", "lg"]} // Responsive size
+        size={["md", "lg"]}
         borderRadius="full"
         boxShadow="lg"
         _hover={{ bg: "red.600", transform: "scale(1.1)" }}
         _active={{ bg: "red.700" }}
         transition="transform 0.3s ease, background-color 0.3s ease"
+        onClick={onOpen}
       >
         Have an Emergency?
       </Button>
+
+      {/* Emergency Modal */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Emergency Options</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text mb={4}>
+              If you have an emergency, you can call 911 or send an SMS.
+            </Text>
+            <Button
+              as="a"
+              href="tel:911"
+              colorScheme="red"
+              size="lg"
+              width="full"
+              mb={4}
+              _hover={{ bg: "red.600", transform: "scale(1.05)" }}
+              _active={{ bg: "red.700" }}
+            >
+              Call 911
+            </Button>
+            <Button
+              as="a"
+              href="sms:911?body=Emergency! Please send an ambulance."
+              colorScheme="teal"
+              size="lg"
+              width="full"
+              _hover={{ bg: "teal.600", transform: "scale(1.05)" }}
+              _active={{ bg: "teal.700" }}
+            >
+              Send SMS
+            </Button>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

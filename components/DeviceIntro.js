@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 // components/DeviceIntro.js
 import {
   Box,
@@ -27,48 +26,70 @@ const zoomIn = keyframes`
 
 const DeviceIntro = () => (
   <Box
-    p={10}
-    bgGradient="linear(to-r, teal.100, teal.300)"
-    borderRadius="lg"
-    boxShadow="2xl"
-    backdropFilter="blur(10px)"
-    mb={12}
+    p={12}
+    bgGradient="linear(to-b, gray.900, black)"
+    borderRadius="xl"
+    boxShadow="dark-lg"
+    backdropFilter="blur(15px)"
+    mb={16}
     width="100%"
     mx="auto"
     textAlign="center"
     animation={`${fadeIn} 1s ease-out`}
   >
-    <Stack spacing={8} width="100%" animation={`${slideIn} 1.2s ease-in-out`}>
-      <Heading size="2xl" color="teal.800" animation={`${zoomIn} 1.5s ease-in-out`}>
-        Introducing Our IoT Device, CardioQ
+    <Stack spacing={10} width="100%" animation={`${slideIn} 1.2s ease-in-out`}>
+      <Heading
+        size="2xl"
+        color="teal.300"
+        animation={`${zoomIn} 1.5s ease-in-out`}
+      >
+        Introducing CardioQ: Your Heart's Guardian
       </Heading>
-      <Text fontSize="xl" color="gray.700" animation={`${fadeIn} 1.5s ease-out`}>
-        CardioQ is a cutting-edge, lightweight wearable device designed to
-        monitor your heartbeat fluctuations during sleep. Its advanced sensors
-        collect detailed reports of your heart rate variations, providing
-        real-time feedback on any significant fluctuations. Track your heart
-        health effortlessly and stay informed about your cardiac well-being
-        anytime, anywhere.
+      <Text
+        fontSize="xl"
+        color="gray.300"
+        animation={`${fadeIn} 1.5s ease-out`}
+      >
+        CardioQ is an advanced IoT device engineered to keep a vigilant eye on
+        your heart while you sleep. Equipped with precise sensors, it tracks
+        your heartbeat for fluctuations and anomalies, delivering real-time data
+        and updates to your connected device. Whether you're resting at home or
+        on the move, CardioQ is always there to monitor and ensure your cardiac
+        well-being.
       </Text>
       <Image
-        // src="/images/cardioq-device.png"
-        src="https://sumatosoft.com/wp-content/uploads/2023/09/IoT-devices-in-healthcare-1200x900.png"
+        src="https://images.unsplash.com/photo-1610370242545-4ba3a7a6d3e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzQ3N3wwfDF8c2VhcmNofDEyfHxpbyUyMGRldmljZXMlMjBoZWFsdGhjYXJlfGVufDB8fHx8MTY5MjI0MjUyMg&ixlib=rb-1.2.1&q=80&w=1080"
         alt="CardioQ Device"
         boxSize={useBreakpointValue({ base: "100%", md: "80%" })}
         objectFit="contain"
-        borderRadius="md"
+        borderRadius="xl"
         mx="auto"
-        shadow="xl"
-        height="180px"
+        shadow="2xl"
+        height="220px"
         width="auto"
         animation={`${zoomIn} 2s ease`}
       />
-      <Text fontSize="lg" color="gray.600" animation={`${fadeIn} 1.8s ease-out`}>
-        The CardioQ device is designed for comfort and accuracy. Its sleek,
-        ergonomic design ensures a snug fit on your wrist or chest, while its
-        lightweight build means you'll hardly notice you're wearing it. With
-        easy synchronization with our mobile app, monitoring your heart health
-        has never been easier.
+      <Text
+        fontSize="lg"
+        color="gray.400"
+        animation={`${fadeIn} 1.8s ease-out`}
+      >
+        With its modern design, CardioQ sits comfortably on your wrist or chest,
+        ensuring both accuracy and ease of use. The sleek profile allows you to
+        wear it all night without discomfort, while the real-time syncing
+        capabilities give you peace of mind, knowing that every heartbeat is
+        monitored and recorded. Your heart health is in good hands.
+      </Text>
+      <Text
+        fontSize="lg"
+        color="gray.400"
+        animation={`${fadeIn} 1.8s ease-out`}
+      >
+        In the morning, review a detailed report of your heart's activity during
+        sleep, including fluctuations, rhythm trends, and warnings for
+        irregularities. This data empowers you to make informed decisions about
+        your health, alerting you to any significant changes long before they
+        become a concern. Stay connected to your heart with CardioQ.
       </Text>
     </Stack>
   </Box>
