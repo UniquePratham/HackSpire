@@ -6,7 +6,6 @@ const MenstrualTracker = () => {
   const [nextCycleDate, setNextCycleDate] = useState("");
   const [notificationGranted, setNotificationGranted] = useState(false);
 
-  // Load stored date on mount
   useEffect(() => {
     const savedDate = localStorage.getItem("menstrualStartDate");
     if (savedDate) {
@@ -15,7 +14,12 @@ const MenstrualTracker = () => {
     }
   }, []);
 
-  // Save date to local storage and calculate next cycle
+  useEffect(() => {
+    if (nextCycleDate && notificationGranted) {
+      scheduleNotifications(new Date(nextCycleDate));
+    }
+  }, [nextCycleDate, notificationGranted]);
+
   const handleStartDateChange = (e) => {
     const newDate = e.target.value;
     setStartDate(newDate);
@@ -23,25 +27,60 @@ const MenstrualTracker = () => {
     calculateNextCycle(new Date(newDate));
   };
 
-  // Calculate the next cycle date based on a 28-day cycle
   const calculateNextCycle = (date) => {
     const nextCycle = new Date(date);
-    nextCycle.setDate(date.getDate() + 28);
+    nextCycle.setDate(date.getDate() + 28); // Assuming a 28-day cycle
     setNextCycleDate(nextCycle.toDateString());
   };
 
-  // Request notification permission
   const requestNotificationPermission = () => {
     Notification.requestPermission().then((permission) => {
       setNotificationGranted(permission === "granted");
     });
   };
 
-  // Send notification
-  const sendNotification = () => {
-    if (notificationGranted && nextCycleDate) {
+  const scheduleNotifications = (nextCycleDate) => {
+    const currentDate = new Date();
+    const fiveDaysBefore = new Date(nextCycleDate);
+    fiveDaysBefore.setDate(nextCycleDate.getDate() - 5);
+
+    if (currentDate >= fiveDaysBefore && currentDate <= nextCycleDate) {
+      sendNotification("Reminder: Your cycle is approaching in 5 days!");
+      dailyNotificationReminder(nextCycleDate);
+    } else {
+      const timeUntilFirstNotification =
+        fiveDaysBefore.getTime() - currentDate.getTime();
+      setTimeout(() => {
+        sendNotification("Reminder: Your cycle is approaching in 5 days!");
+        dailyNotificationReminder(nextCycleDate);
+      }, timeUntilFirstNotification);
+    }
+  };
+
+  const dailyNotificationReminder = (nextCycleDate) => {
+    const currentDate = new Date();
+    const daysUntilNextCycle =
+      (nextCycleDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (daysUntilNextCycle > 0) {
+      const interval = setInterval(() => {
+        const daysLeft = Math.ceil(
+          (nextCycleDate.getTime() - new Date().getTime()) /
+            (1000 * 60 * 60 * 24)
+        );
+        if (daysLeft > 0) {
+          sendNotification(`Reminder: Your cycle starts in ${daysLeft} days!`);
+        } else {
+          clearInterval(interval); // Stop the reminders on the day of the cycle
+        }
+      }, 24 * 60 * 60 * 1000); // Repeat every 24 hours
+    }
+  };
+
+  const sendNotification = (message) => {
+    if (notificationGranted && message) {
       new Notification("Cycle Reminder", {
-        body: `Your next menstrual cycle starts on ${nextCycleDate}`,
+        body: message,
       });
     }
   };
@@ -70,11 +109,6 @@ const MenstrualTracker = () => {
         <Button colorScheme="pink" onClick={requestNotificationPermission}>
           Enable Notifications
         </Button>
-        {notificationGranted && (
-          <Button colorScheme="teal" onClick={sendNotification}>
-            Test Notification
-          </Button>
-        )}
       </VStack>
     </Box>
   );
