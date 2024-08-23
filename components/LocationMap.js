@@ -82,11 +82,7 @@ const MapComponent = () => {
   return (
     <Box
       h="100vh"
-      w="100%"
-      bg="url(https://img.lovepik.com/background/20211022/large/lovepik-medical-background-map-of-science-and-technology-image_500748360.jpg)"
-      bgSize="cover"
-      bgPosition="center"
-      bgRepeat="no-repeat"
+      w="100%" 
     >
       {/* Header Section */}
       <Flex
