@@ -136,7 +136,7 @@ const WC = () => {
               Women&apos;s Care
             </Heading>
             <Text fontSize={["sm", "md"]}>
-              Comprehensive care for women’s health, including gynecological
+              Comprehensive care for women&apos;s health, including gynecological
               services, reproductive health, and general wellness checks.
             </Text>
           </VStack>
