@@ -40,18 +40,23 @@ const MapComponent = () => {
   const [highlightedHospital, setHighlightedHospital] = useState(null);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation({ latitude, longitude });
-        fetchNearbyHospitals(latitude, longitude);
-      },
-      (error) => {
-        console.error("Error getting user location:", error);
-        setLoading(false);
-      },
-      { enableHighAccuracy: true }
-    );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
+          fetchNearbyHospitals(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+          setLoading(false);
+        },
+        { enableHighAccuracy: true }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+      setLoading(false);
+    }
   }, []);
 
   const fetchNearbyHospitals = async (latitude, longitude) => {
@@ -227,17 +232,18 @@ const MapComponent = () => {
                   <Box
                     p={4}
                     borderWidth="1px"
-                    borderRadius="md"
+                    borderRadius="lg"
+                    shadow="md"
                     w="full"
-                    boxShadow="sm"
-                    bg="teal.50"
-                    _hover={{ bg: "teal.100", transform: "scale(1.03)" }}
-                    transition="all 0.3s"
+                    onClick={() => setHighlightedHospital(hospital)}
                     cursor="pointer"
+                    _hover={{ bg: "teal.50" }}
                   >
-                    <Text fontWeight="bold" color="teal.700">
+                    <Text fontWeight="bold" color="teal.500">
                       {hospital.name}
                     </Text>
+                    <Text fontSize="sm">Lat: {hospital.latitude}</Text>
+                    <Text fontSize="sm">Lon: {hospital.longitude}</Text>
                   </Box>
                 </Link>
               ))}
@@ -249,19 +255,19 @@ const MapComponent = () => {
   );
 };
 
-// Helper component to pan the map to the clicked hospital
+export default MapComponent;
+
+// Utility for panning the map to a specific marker
 const PanToMarker = ({ location }) => {
   const map = useMap();
-
   useEffect(() => {
     if (location) {
       map.flyTo([location.latitude, location.longitude], 14, {
         animate: true,
+        duration: 1.5,
       });
     }
   }, [location, map]);
 
   return null;
 };
-
-export default MapComponent;

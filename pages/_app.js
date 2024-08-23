@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
           name="description"
           content="VitalityAI - Medical technology for the future"
         />
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/icon.png" />
       </Head>
       <Component {...pageProps} />
       <ChatBot />
