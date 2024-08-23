@@ -47,7 +47,7 @@ const UsageSteps = () => (
         animation={`${fadeIn} 1.5s ease-out`}
       >
         <ListItem>
-          Wear CardioQ on your wrist or chest before sleep. Ensure it's secured
+          Wear CardioQ on your wrist or chest before sleep. Ensure it&apos;s secured
           comfortably.
         </ListItem>
         <ListItem>
@@ -59,7 +59,7 @@ const UsageSteps = () => (
         </ListItem>
         <ListItem>
           In the morning, review your personalized report with insights and
-          advice on your heart's health.
+          advice on your heart&apos;s health.
         </ListItem>
         <ListItem>
           Receive alerts for any unusual heartbeat patterns that require your

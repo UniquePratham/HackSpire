@@ -104,7 +104,7 @@ const WC = () => {
           _hover={{ color: "cyan", transform: "scale(1.05)" }}
           cursor="pointer"
         >
-          Women's & Child Care
+          Women&apos;s & Child Care
         </Heading>
 
         {/* Content */}
@@ -116,7 +116,7 @@ const WC = () => {
           mt={[6, 8]} // Adjust margin top
           spacing={[4, 6, 8]} // Adjust spacing
         >
-          {/* Women's Care Section */}
+          {/* Women&apos;s Care Section */}
           <VStack
             bg="blue.500"
             color="white"
@@ -133,7 +133,7 @@ const WC = () => {
             <Icon as={FaFemale} boxSize={[8, 10]} mb={4} />{" "}
             {/* Responsive icon size */}
             <Heading size={["md", "lg"]} fontWeight="300" mb={2}>
-              Women's Care
+              Women&apos;s Care
             </Heading>
             <Text fontSize={["sm", "md"]}>
               Comprehensive care for women’s health, including gynecological

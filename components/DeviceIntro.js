@@ -43,7 +43,7 @@ const DeviceIntro = () => (
         color="teal.300"
         animation={`${zoomIn} 1.5s ease-in-out`}
       >
-        Introducing CardioQ: Your Heart's Guardian
+        Introducing CardioQ: Your Heart&apos;s Guardian
       </Heading>
       <Text
         fontSize="xl"
@@ -53,7 +53,7 @@ const DeviceIntro = () => (
         CardioQ is an advanced IoT device engineered to keep a vigilant eye on
         your heart while you sleep. Equipped with precise sensors, it tracks
         your heartbeat for fluctuations and anomalies, delivering real-time data
-        and updates to your connected device. Whether you're resting at home or
+        and updates to your connected device. Whether you&apos;re resting at home or
         on the move, CardioQ is always there to monitor and ensure your cardiac
         well-being.
       </Text>
@@ -85,7 +85,7 @@ const DeviceIntro = () => (
         color="gray.400"
         animation={`${fadeIn} 1.8s ease-out`}
       >
-        In the morning, review a detailed report of your heart's activity during
+        In the morning, review a detailed report of your heart&apos;s activity during
         sleep, including fluctuations, rhythm trends, and warnings for
         irregularities. This data empowers you to make informed decisions about
         your health, alerting you to any significant changes long before they
