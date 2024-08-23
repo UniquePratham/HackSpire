@@ -207,6 +207,7 @@ const WC = () => {
         _active={{ bg: "red.700" }}
         transition="transform 0.3s ease, background-color 0.3s ease"
         onClick={onOpen}
+        zIndex={1000}
       >
         Have an Emergency?
       </Button>
