@@ -106,7 +106,7 @@ const MenstrualTracker = () => {
       bg="pink.100"
       borderRadius="lg"
       textAlign="center"
-      width="100vw"
+      width="100%"
     >
       {/* Slogan Section */}
       <Heading mb={4} color="pink.700" fontSize={{ base: "2xl", md: "3xl" }}>
