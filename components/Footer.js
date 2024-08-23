@@ -1,7 +1,13 @@
 import React from "react";
 import { Box, Flex, Icon, Link, Text, Input, Button } from "@chakra-ui/react";
 import { FiMapPin, FiPhone, FiMail } from "react-icons/fi";
-import { FaLinkedin } from "react-icons/fa";
+import {
+  FaLinkedin,
+  FaWhatsapp,
+  FaInstagram,
+  FaTelegram,
+  FaFacebook,
+} from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -23,19 +29,28 @@ const Footer = () => {
         >
           <Flex align="center" mb={4}>
             <Icon as={FiMapPin} mr={2} color="cyan" />
-            <Text cursor="pointer"  _hover={{ color: "green.300", transition: "color 0.3s" }}>
+            <Text
+              cursor="pointer"
+              _hover={{ color: "green.300", transition: "color 0.3s" }}
+            >
               Salt Lake, Kolkata- 700138
             </Text>
           </Flex>
           <Flex align="center" mb={4}>
             <Icon as={FiPhone} mr={2} color="red" />
-            <Text cursor="pointer" _hover={{ color: "green.300", transition: "color 0.3s" }}>
+            <Text
+              cursor="pointer"
+              _hover={{ color: "green.300", transition: "color 0.3s" }}
+            >
               +91 9674177512
             </Text>
           </Flex>
           <Flex align="center" mb={4}>
             <Icon as={FiMail} mr={2} color="yellow" />
-            <Text  cursor="pointer" _hover={{ color: "green.300", transition: "color 0.3s" }}>
+            <Text
+              cursor="pointer"
+              _hover={{ color: "green.300", transition: "color 0.3s" }}
+            >
               shaswata.ssaha@gmail.com
             </Text>
           </Flex>
@@ -43,14 +58,51 @@ const Footer = () => {
 
         {/* Right part: Social Links and Newsletter Subscription */}
         <Box flex="1" textAlign={{ base: "center", md: "right" }}>
-          {/* LinkedIn icon/link */}
           <Flex justify="center" mb={4}>
+            {/* LinkedIn */}
             <Link
               href="https://www.linkedin.com/in/shaswata-saha-74b209251/"
               isExternal
+              mx={2}
               _hover={{ color: "cyan.500", transition: "color 0.3s" }}
             >
               <Icon as={FaLinkedin} boxSize={6} />
+            </Link>
+            {/* WhatsApp */}
+            <Link
+              href="https://wa.me/919674177512"
+              isExternal
+              mx={2}
+              _hover={{ color: "green.500", transition: "color 0.3s" }}
+            >
+              <Icon as={FaWhatsapp} boxSize={6} />
+            </Link>
+            {/* Instagram */}
+            <Link
+              href="https://www.instagram.com"
+              isExternal
+              mx={2}
+              _hover={{ color: "pink.500", transition: "color 0.3s" }}
+            >
+              <Icon as={FaInstagram} boxSize={6} />
+            </Link>
+            {/* Telegram */}
+            <Link
+              href="https://t.me"
+              isExternal
+              mx={2}
+              _hover={{ color: "blue.400", transition: "color 0.3s" }}
+            >
+              <Icon as={FaTelegram} boxSize={6} />
+            </Link>
+            {/* Facebook */}
+            <Link
+              href="https://www.facebook.com"
+              isExternal
+              mx={2}
+              _hover={{ color: "blue.600", transition: "color 0.3s" }}
+            >
+              <Icon as={FaFacebook} boxSize={6} />
             </Link>
           </Flex>
 
