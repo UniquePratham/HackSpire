@@ -29,7 +29,7 @@ export default function Navbar() {
         {/* Logo */}
         <NextLink href="/" passHref>
           <Link>
-            <Image src="/logo.png" alt="VitalityAi Logo" width="100px" />
+            <Image src="/logo.png" alt="VitalityAi Logo" width="180px" />
           </Link>
         </NextLink>
 

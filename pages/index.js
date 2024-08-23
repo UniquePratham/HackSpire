@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
 import FAQ from "@/components/FAQ";
 import Guide from "@/components/Guide";
-import LocationMap from "@/components/LocationMap";
 const Navbar = dynamic(() => import("@/components/Navbar"), {
   ssr: false,
 });
@@ -18,7 +17,6 @@ export default function Home() {
       <HeroSection />
       <Guide />
       <FAQ />
-      <LocationMap />
       <Footer />
     </>
   );

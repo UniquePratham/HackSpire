@@ -1,3 +1,4 @@
+import ChatBot from "@/components/ChatBot";
 import { ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 export default function App({ Component, pageProps }) {
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }) {
         <link rel="icon" href="/logo.png" />
       </Head>
       <Component {...pageProps} />
+      <ChatBot />
     </ChakraProvider>
   );
 }

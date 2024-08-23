@@ -1,157 +1,199 @@
-import { Box, Button, Stack, Text, Input, Flex, IconButton, Icon, Wrap, WrapItem } from "@chakra-ui/react";
+// components/ChatBot.js
 import { useState } from "react";
-import { CloseIcon } from "@chakra-ui/icons";
-import { FaPaperPlane } from "react-icons/fa";
+import {
+  Box,
+  Input,
+  Button,
+  Text,
+  Flex,
+  VStack,
+  IconButton,
+} from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import { AiOutlineClose } from "react-icons/ai";
+import { FaPaperPlane, FaRobot } from "react-icons/fa";
+
+const MotionBox = motion(Box);
 
 const ChatBot = () => {
-  const [inputValue, setInputValue] = useState("");
-  
-  // Function to handle text suggestion click
-  const handleSuggestionClick = (suggestion) => {
-    setInputValue(suggestion);
-  };
+  const [query, setQuery] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Function to clear the input
-  const clearInput = () => {
-    setInputValue("");
+  const handleQuerySubmit = async () => {
+    if (!query) return;
+
+    // Replace spaces with '+' in the query
+    const formattedQuery = query.split(" ").join("+");
+
+    // Construct the URL
+    const requestUrl = `https://cors-anywhere.herokuapp.com/https://api.wolframalpha.com/v2/query?input=${formattedQuery}&format=plaintext&output=JSON&appid=LYYUH3-6K982RERP2`;
+
+
+    console.log(requestUrl);
+
+    // Add user message
+    setMessages([...messages, { text: query, type: "user" }]);
+    setQuery("");
+
+    try {
+      const res = await fetch(requestUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await res.json();
+
+      const resultPod = data.queryresult.pods.find(
+        (pod) => pod.title === "Result"
+      );
+      const botResponse = resultPod
+        ? resultPod.subpods[0].plaintext
+        : "No answer found.";
+
+      // Add bot message
+      setMessages([...messages, { text: botResponse, type: "bot" }]);
+    } catch (error) {
+      console.error("Error fetching data from Wolfram API:", error);
+      setMessages([
+        ...messages,
+        { text: "Sorry, I encountered an error.", type: "bot" },
+      ]);
+    }
   };
 
   return (
-    <Box
-      height="100vh"
-      bgGradient="linear(to-r, teal.500, green.500)"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      zIndex={1000}
-      p={5}
-      overflow="hidden"
-    >
-      <Box
-        width={{ base: "90%", md: "85%", lg: "80%" }}
-        bg="white"
-        borderRadius="md"
-        p={8}
-        boxShadow="lg"
-        display="flex"
-        flexDirection="column"
+    <>
+      {/* Chat Icon */}
+      <MotionBox
+        position="fixed"
+        bottom="10px"
+        left="10px"
+        borderRadius="full"
+        backgroundColor="red.500"
+        boxShadow="md"
+        padding="10px"
+        cursor="pointer"
+        onClick={() => setIsOpen(!isOpen)}
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.3 }}
       >
-        {/* Chatbot Header */}
-        <Flex justifyContent="space-between" alignItems="center" mb={4}>
-          <Text fontSize="2xl" fontWeight="bold" color="teal.600">
-            Doctor AI Bot
-          </Text>
-          <IconButton
-            icon={<CloseIcon />}
-            size="sm"
-            colorScheme="teal"
-            onClick={clearInput}
-            aria-label="Clear Input"
-          />
-        </Flex>
+        <IconButton
+          justify="center"
+          display="flex"
+          icon={<FaRobot />}
+          aria-label="Chat with AI"
+          variant="unstyled"
+          color="white"
+          fontSize="24px"
+        />
+      </MotionBox>
 
-        {/* Suggestions Section */}
-        <Text fontSize="lg" fontWeight="medium" mb={4} textAlign="center">
-          You might want to know
-        </Text>
-        
-        {/* Message Suggestions */}
-        <Wrap spacing={3} mb={6} justify="center">
-          <WrapItem>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={() => handleSuggestionClick("I have fever and headaches")}
+      {/* Chat Interface */}
+      {isOpen && (
+        <MotionBox
+          position="fixed"
+          bottom="0"
+          left="0"
+          width="360px"
+          height="480px"
+          borderRadius="8px"
+          backgroundColor="white"
+          boxShadow="lg"
+          zIndex="1000"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isOpen ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Flex direction="column" height="100%">
+            <Box
+              backgroundColor="red.500"
+              color="white"
+              padding="4"
+              borderTopRadius="8px"
+              position="relative"
+              textAlign="center"
             >
-              I have fever and headaches
-            </Button>
-          </WrapItem>
-          <WrapItem>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={() => handleSuggestionClick("What are the symptoms of COVID-19?")}
-            >
-              What are the symptoms of COVID-19?
-            </Button>
-          </WrapItem>
-          <WrapItem>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={() => handleSuggestionClick("How do I prevent the common cold?")}
-            >
-              How do I prevent the common cold?
-            </Button>
-          </WrapItem>
-          <WrapItem>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={() => handleSuggestionClick("Can you provide tips for healthy eating?")}
-            >
-              Can you provide tips for healthy eating?
-            </Button>
-          </WrapItem>
-          <WrapItem>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={() => handleSuggestionClick("How can I improve my sleep quality?")}
-            >
-              How can I improve my sleep quality?
-            </Button>
-          </WrapItem>
-          <WrapItem>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={() => handleSuggestionClick("What exercises are good for lower back pain?")}
-            >
-              What exercises are good for lower back pain?
-            </Button>
-          </WrapItem>
-          <WrapItem>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={() => handleSuggestionClick("Do you have tips for managing stress?")}
-            >
-              Do you have tips for managing stress?
-            </Button>
-          </WrapItem>
-          <WrapItem>
-            <Button
-              variant="outline"
-              size="md"
-              onClick={() => handleSuggestionClick("How do I boost my immune system?")}
-            >
-              How do I boost my immune system?
-            </Button>
-          </WrapItem>
-        </Wrap>
+              <Text fontWeight="bold" fontSize="lg">
+                Talk with Wolfram AI
+              </Text>
+              <IconButton
+                position="absolute"
+                top="4px"
+                right="4px"
+                onClick={() => setIsOpen(false)}
+                variant="link"
+                color="white"
+                fontSize="24px"
+                aria-label="Close Chat"
+                icon={<AiOutlineClose />}
+              />
+            </Box>
 
-        {/* Chat Input */}
-        <Flex>
-          <Input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Type your message..."
-            size="lg"
-            bg="gray.100"
-            borderRadius="md"
-          />
-          <Button
-            ml={4}
-            colorScheme="teal"
-            size="lg"
-            onClick={() => alert(`Message sent: ${inputValue}`)}
-          >
-            <Icon as={FaPaperPlane} color="white" />
-          </Button>
-        </Flex>
-      </Box>
-    </Box>
+            <VStack
+              spacing="3"
+              align="stretch"
+              padding="4"
+              flex="1"
+              overflowY="auto"
+              backgroundColor="gray.100"
+            >
+              {messages.map((msg, index) => (
+                <Box
+                  key={index}
+                  padding="3"
+                  borderRadius="md"
+                  backgroundColor={
+                    msg.type === "user" ? "blue.100" : "green.100"
+                  }
+                  alignSelf={msg.type === "user" ? "flex-end" : "flex-start"}
+                  maxWidth="80%"
+                >
+                  <Text>{msg.text}</Text>
+                </Box>
+              ))}
+            </VStack>
+
+            <Flex
+              as="form"
+              padding="2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleQuerySubmit();
+              }}
+              alignItems="center"
+              backgroundColor="white"
+            >
+              <Input
+                placeholder="Type your question..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                marginRight="2"
+                size="md"
+                borderRadius="md"
+                backgroundColor="gray.50"
+                borderColor="gray.200"
+              />
+              <Button
+                type="submit"
+                colorScheme="blue"
+                size="md"
+                borderRadius="md"
+              >
+                <FaPaperPlane />
+              </Button>
+            </Flex>
+          </Flex>
+        </MotionBox>
+      )}
+    </>
   );
 };
 
