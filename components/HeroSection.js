@@ -21,6 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { FaUserMd, FaMapMarkerAlt, FaRegClipboard } from "react-icons/fa";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 
 // Typing animation keyframes
 const typing = keyframes`
@@ -37,6 +38,17 @@ const typing = keyframes`
 export default function HeroSection() {
   const [borderRight, setBorderRight] = useState("4px solid white");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
+
+  const handleButton1Click = () => {
+    router.push("/map"); // Redirect to the map page
+  };
+  const handleButton2Click = () => {
+    router.push("/map"); // Redirect to the map page
+  };
+  // const handleButton3Click = () => {
+  //   router.push("/map"); // Redirect to the map page
+  // };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -215,6 +227,7 @@ export default function HeroSection() {
             borderRadius="md"
             mb={[4, 0]}
             transition="transform 0.3s ease, background-color 0.3s ease"
+            onClick={handleButton2Click}
           >
             <Icon as={FaMapMarkerAlt} boxSize={[8, 10]} mb={4} />
             <Text fontWeight="400" fontSize={["24px", "28px"]}>
