@@ -109,6 +109,7 @@ const FAQ = () => {
             <IconButton
               icon={isOpen[index] ? <FaMinus /> : <FaPlus />}
               fontSize={{ base: "18px", md: "22px" }}
+              zIndex="900"
             />
           </Flex>
           <Collapse in={isOpen[index]} animateOpacity>

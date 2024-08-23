@@ -47,8 +47,8 @@ const UsageSteps = () => (
         animation={`${fadeIn} 1.5s ease-out`}
       >
         <ListItem>
-          Wear CardioQ on your wrist or chest before sleep. Ensure it&apos;s secured
-          comfortably.
+          Wear CardioQ on your wrist or chest before sleep. Ensure it&apos;s
+          secured comfortably.
         </ListItem>
         <ListItem>
           Sync it with the app via Bluetooth to enable real-time data tracking.
@@ -66,15 +66,17 @@ const UsageSteps = () => (
           attention.
         </ListItem>
       </OrderedList>
-      <Image
-        src="https://cdn.dribbble.com/users/1355613/screenshots/6936873/media/79fb7e2b0b8dd6fd2dbf276c10b19d47.png"
-        alt="CardioQ Usage"
-        boxSize={{ base: "100%", md: "80%" }}
-        borderRadius="xl"
-        objectFit="cover"
-        shadow="2xl"
-        mx="auto"
-      />
+      <Box display="flex" justifyContent="center" width="100%">
+        <Image
+          src="https://www.iotforall.com/wp-content/uploads/2022/04/How-IoT-monitoring-devices-are-used-in-real-time-for-early-detection-of-heart-diseases-1.jpg"
+          alt="CardioQ Usage"
+          boxSize={{ base: "100%", md: "80%" }}
+          borderRadius="xl"
+          objectFit="cover"
+          shadow="2xl"
+          mx="auto"
+        />
+      </Box>
     </Stack>
   </Box>
 );

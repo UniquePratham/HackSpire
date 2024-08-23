@@ -41,7 +41,7 @@ export default function HeroSection() {
   const router = useRouter();
 
   const handleButton1Click = () => {
-    router.push("/map"); // Redirect to the map page
+    router.push("/doctorlist"); // Redirect to the map page
   };
   const handleButton2Click = () => {
     router.push("/map"); // Redirect to the map page
@@ -202,6 +202,7 @@ export default function HeroSection() {
             height={{ base: "auto", md: "250px" }}
             mb={[4, 0]}
             transition="transform 0.3s ease, background-color 0.3s ease"
+            onClick={handleButton1Click}
           >
             <Icon as={FaUserMd} boxSize={[8, 10]} mb={4} />
             <Text fontWeight="400" fontSize={["24px", "28px"]}>
@@ -277,12 +278,13 @@ export default function HeroSection() {
         _active={{ bg: "red.700" }}
         transition="transform 0.3s ease, background-color 0.3s ease"
         onClick={onOpen}
+        zIndex={1000}
       >
         Have an Emergency?
       </Button>
 
       {/* Emergency Modal */}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} zIndex={1000}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Emergency Options</ModalHeader>
