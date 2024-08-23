@@ -64,18 +64,19 @@ const features = [
 const Guide = () => {
   return (
     <Flex direction="column" align="center" p={10}>
-      <Text fontSize="4xl" fontWeight="bold" mb={8}>
-        Website Guide
+      <Text fontSize="4xl" fontWeight="bold" mb={8} fontFamily="cursive" textShadow="2px 2px 5px rgba(0,0,0,0.2)">
+        Explore Our Features
       </Text>
       <Accordion allowToggle w="100%" maxW="800px">
         {features.map((feature, index) => (
-          <AccordionItem key={index}>
+          <AccordionItem key={index} border="none">
             <MotionBox
               as="header"
               bg={feature.bg}
               color="white"
               p={6}
               borderRadius="lg"
+              boxShadow="lg"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
@@ -96,9 +97,26 @@ const Guide = () => {
               </AccordionButton>
             </MotionBox>
 
-            <AccordionPanel pb={4} bg="white" color="black" borderRadius="lg" boxShadow="md">
-              <Text mb={2}>{feature.description}</Text>
-              <Text>{feature.details}</Text>
+            <AccordionPanel
+              pb={4}
+              bg="white"
+              color="black"
+              borderRadius="lg"
+              boxShadow="xl"
+              transform="scale(1.05)" // Slightly enlarges the expanded box
+              transition="transform 0.3s ease-in-out" // Smooth transition for 3D effect
+              mt={-2} // Minor offset to elevate the expanded box
+            >
+              <Box
+                p={4}
+                borderRadius="lg"
+                boxShadow="md"
+                transform="translateZ(10px)" // Gives a 3D depth effect
+                transition="transform 0.3s ease-in-out"
+              >
+                <Text mb={2}>{feature.description}</Text>
+                <Text>{feature.details}</Text>
+              </Box>
             </AccordionPanel>
           </AccordionItem>
         ))}

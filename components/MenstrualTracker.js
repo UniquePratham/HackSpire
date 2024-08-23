@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Box, Heading, Button, Text, Input, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Button,
+  Text,
+  Input,
+  VStack,
+  HStack,
+  Icon,
+} from "@chakra-ui/react";
+import Image from "next/image";
+import { FaCalendarAlt, FaBell, FaPlus } from "react-icons/fa";
 
 const MenstrualTracker = () => {
   const [startDate, setStartDate] = useState("");
@@ -87,10 +98,58 @@ const MenstrualTracker = () => {
 
   return (
     <Box p={8} bg="pink.100" borderRadius="lg" textAlign="center">
+      {/* Slogan Section */}
       <Heading mb={4} color="pink.700">
-        Menstrual Cycle Tracker
+        Embrace Your Cycle with Confidence
       </Heading>
-      <VStack spacing={4}>
+      <Text fontSize="lg" color="pink.800" mb={6}>
+        Track your menstrual cycle effortlessly and stay prepared with timely
+        notifications.
+      </Text>
+
+      {/* Image Section */}
+      <Box
+        mb={6}
+        position="relative"
+        height="50vh"
+        width="95vw"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Image
+          src="https://img.freepik.com/free-vector/menstrual-calendar-concept-illustration_23-2148649657.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1724025600&semt=ais_hybrid"
+          alt="Menstrual Calendar"
+          layout="fill"
+          objectFit="contain"
+          style={{ borderRadius: "8px" }}
+        />
+      </Box>
+
+      {/* Icon Symbols Section */}
+      <HStack spacing={8} mb={6} justify="center">
+        <Box>
+          <Icon as={FaCalendarAlt} boxSize={6} color="pink.600" />
+          <Text fontSize="lg" color="pink.800">
+            Track Your Cycle
+          </Text>
+        </Box>
+        <Box>
+          <Icon as={FaBell} boxSize={6} color="pink.600" />
+          <Text fontSize="lg" color="pink.800">
+            Set Reminders
+          </Text>
+        </Box>
+        <Box>
+          <Icon as={FaPlus} boxSize={6} color="pink.600" />
+          <Text fontSize="lg" color="pink.800">
+            Add New Dates
+          </Text>
+        </Box>
+      </HStack>
+
+      {/* Main Content */}
+      <VStack spacing={4} mt={6}>
         <Text fontSize="lg" color="pink.800">
           Enter the start date of your current menstrual cycle:
         </Text>
@@ -100,6 +159,7 @@ const MenstrualTracker = () => {
           onChange={handleStartDateChange}
           bg="white"
           color="gray.700"
+          width="30vw"
         />
         {nextCycleDate && (
           <Text fontSize="lg" color="pink.800">
