@@ -8,6 +8,7 @@ import {
   VStack,
   HStack,
   Icon,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { FaCalendarAlt, FaBell, FaPlus } from "react-icons/fa";
@@ -16,6 +17,9 @@ const MenstrualTracker = () => {
   const [startDate, setStartDate] = useState("");
   const [nextCycleDate, setNextCycleDate] = useState("");
   const [notificationGranted, setNotificationGranted] = useState(false);
+
+  const imageHeight = useBreakpointValue({ base: "30vh", md: "40vh", lg: "50vh" });
+  const imageWidth = useBreakpointValue({ base: "90vw", md: "70vw", lg: "50vw" });
 
   useEffect(() => {
     const savedDate = localStorage.getItem("menstrualStartDate");
@@ -97,12 +101,18 @@ const MenstrualTracker = () => {
   };
 
   return (
-    <Box p={8} bg="pink.100" borderRadius="lg" textAlign="center">
+    <Box
+      p={{ base: 4, md: 8 }}
+      bg="pink.100"
+      borderRadius="lg"
+      textAlign="center"
+      width="100vw"
+    >
       {/* Slogan Section */}
-      <Heading mb={4} color="pink.700">
+      <Heading mb={4} color="pink.700" fontSize={{ base: "2xl", md: "3xl" }}>
         Embrace Your Cycle with Confidence
       </Heading>
-      <Text fontSize="lg" color="pink.800" mb={6}>
+      <Text fontSize={{ base: "md", md: "lg" }} color="pink.800" mb={6}>
         Track your menstrual cycle effortlessly and stay prepared with timely
         notifications.
       </Text>
@@ -111,11 +121,12 @@ const MenstrualTracker = () => {
       <Box
         mb={6}
         position="relative"
-        height="50vh"
-        width="95vw"
+        height={imageHeight}
+        width={imageWidth}
         display="flex"
         justifyContent="center"
         alignItems="center"
+        mx="auto"
       >
         <Image
           src="https://img.freepik.com/free-vector/menstrual-calendar-concept-illustration_23-2148649657.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1724025600&semt=ais_hybrid"
@@ -127,30 +138,35 @@ const MenstrualTracker = () => {
       </Box>
 
       {/* Icon Symbols Section */}
-      <HStack spacing={8} mb={6} justify="center">
-        <Box>
+      <HStack
+        spacing={{ base: 4, md: 8 }}
+        mb={6}
+        justify="center"
+        flexWrap="wrap"
+      >
+        <VStack>
           <Icon as={FaCalendarAlt} boxSize={6} color="pink.600" />
-          <Text fontSize="lg" color="pink.800">
+          <Text fontSize={{ base: "sm", md: "lg" }} color="pink.800">
             Track Your Cycle
           </Text>
-        </Box>
-        <Box>
+        </VStack>
+        <VStack>
           <Icon as={FaBell} boxSize={6} color="pink.600" />
-          <Text fontSize="lg" color="pink.800">
+          <Text fontSize={{ base: "sm", md: "lg" }} color="pink.800">
             Set Reminders
           </Text>
-        </Box>
-        <Box>
+        </VStack>
+        <VStack>
           <Icon as={FaPlus} boxSize={6} color="pink.600" />
-          <Text fontSize="lg" color="pink.800">
+          <Text fontSize={{ base: "sm", md: "lg" }} color="pink.800">
             Add New Dates
           </Text>
-        </Box>
+        </VStack>
       </HStack>
 
       {/* Main Content */}
-      <VStack spacing={4} mt={6}>
-        <Text fontSize="lg" color="pink.800">
+      <VStack spacing={4} mt={6} maxW="600px" mx="auto" width="100%">
+        <Text fontSize={{ base: "sm", md: "lg" }} color="pink.800">
           Enter the start date of your current menstrual cycle:
         </Text>
         <Input
@@ -159,14 +175,18 @@ const MenstrualTracker = () => {
           onChange={handleStartDateChange}
           bg="white"
           color="gray.700"
-          width="30vw"
+          width={{ base: "80%", md: "40%" }}
         />
         {nextCycleDate && (
-          <Text fontSize="lg" color="pink.800">
+          <Text fontSize={{ base: "sm", md: "lg" }} color="pink.800">
             Your next cycle is expected to start on {nextCycleDate}.
           </Text>
         )}
-        <Button colorScheme="pink" onClick={requestNotificationPermission}>
+        <Button
+          colorScheme="pink"
+          onClick={requestNotificationPermission}
+          size={{ base: "sm", md: "md" }}
+        >
           Enable Notifications
         </Button>
       </VStack>
