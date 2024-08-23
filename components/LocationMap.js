@@ -1,103 +1,114 @@
-// components/LocationMap.js
-import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Box, Input, Button, Stack, Text } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { Box, Button, Input, Heading, Text, VStack } from "@chakra-ui/react";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
 
-const LocationMap = () => {
-  const [position, setPosition] = useState([51.505, -0.09]); // Default to London
-  const [searchQuery, setSearchQuery] = useState("");
-  const [hospitals, setHospitals] = useState([]);
-
-  // Fetch user's current location using PositionStack or another geolocation API
-  const getUserLocation = async () => {
-    try {
-      const { data } = await axios.get(
-        `http://api.positionstack.com/v1/forward?access_key=YOUR_API_KEY&query=YOUR_LOCATION`
-      );
-      const { latitude, longitude } = data.data[0];
-      setPosition([latitude, longitude]);
-    } catch (error) {
-      console.error("Failed to fetch location", error);
-    }
-  };
-
-  // Fetch hospitals using OpenStreetMap Overpass API
-  const fetchHospitals = async (lat, lon) => {
-    try {
-      const query = `
-        [out:json];
-        node["amenity"="hospital"](around:5000,${lat},${lon});
-        out body;
-      `;
-      const response = await axios.get(
-        `https://overpass-api.de/api/interpreter?data=${query}`
-      );
-      const hospitalData = response.data.elements.map((element) => ({
-        id: element.id,
-        lat: element.lat,
-        lon: element.lon,
-        name: element.tags.name,
-      }));
-      setHospitals(hospitalData);
-    } catch (error) {
-      console.error("Failed to fetch hospitals", error);
-    }
-  };
-
-  // Handle search for new location based on user input
-  const handleSearch = async () => {
-    try {
-      const { data } = await axios.get(
-        `http://api.positionstack.com/v1/forward?access_key=YOUR_API_KEY&query=${searchQuery}`
-      );
-      const { latitude, longitude } = data.data[0];
-      setPosition([latitude, longitude]);
-      fetchHospitals(latitude, longitude);
-    } catch (error) {
-      console.error("Failed to search location", error);
-    }
-  };
+const LocationMarker = ({ position }) => {
+  const map = useMap();
 
   useEffect(() => {
-    getUserLocation();
+    if (position) {
+      map.flyTo(position, map.getZoom());
+    }
+  }, [position, map]);
+
+  return position === null ? null : (
+    <Marker position={position}>
+      <Popup>You are here</Popup>
+    </Marker>
+  );
+};
+
+const LocationMap = () => {
+  const [position, setPosition] = useState(null);
+  const [search, setSearch] = useState("");
+  const [hospitals, setHospitals] = useState([]);
+  const [isClient, setIsClient] = useState(false); // New state to handle client-side check
+
+  // Effect to check if it's client-side
+  useEffect(() => {
+    setIsClient(true); // This will be true only on the client side
   }, []);
 
+  // Geolocation effect for fetching the user's current location
   useEffect(() => {
-    fetchHospitals(position[0], position[1]);
-  }, [position]);
+    if (isClient && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setPosition([pos.coords.latitude, pos.coords.longitude]);
+        },
+        (err) => {
+          console.error("Geolocation error: ", err);
+        }
+      );
+    }
+  }, [isClient]);
+
+  // Function to handle search and fetch hospital data
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${search}&format=json`
+      );
+      if (response.data.length > 0) {
+        const { lat, lon } = response.data[0];
+        setPosition([parseFloat(lat), parseFloat(lon)]);
+
+        const hospitalRes = await axios.get(
+          `https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=hospital](around:5000,${lat},${lon});out;`
+        );
+        setHospitals(hospitalRes.data.elements);
+      }
+    } catch (error) {
+      console.error("Error fetching location or hospital data:", error);
+    }
+  };
 
   return (
-    <Box p={4} bg="gray.50" minH="80vh" borderRadius="lg" boxShadow="md">
-      <Stack spacing={4} mb={6}>
+    <Box p={8} bg="gray.800" borderRadius="lg" boxShadow="xl" mt={8} mb={8}>
+      <Heading color="white" mb={4}>
+        Find Hospitals Near You
+      </Heading>
+      <Text color="gray.300" mb={6}>
+        Use the map below to find hospitals in your area. The map will
+        automatically detect your location, or you can search for a specific
+        location.
+      </Text>
+      <VStack spacing={4} mb={6}>
         <Input
-          placeholder="Search for a location..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search for a location"
+          bg="gray.700"
+          color="white"
+          border="none"
+          _placeholder={{ color: "gray.400" }}
         />
-        <Button colorScheme="teal" onClick={handleSearch}>
-          Search
+        <Button onClick={handleSearch} colorScheme="teal">
+          Search Location
         </Button>
-      </Stack>
-      <MapContainer
-        center={position}
-        zoom={13}
-        style={{ height: "400px", width: "100%", borderRadius: "8px" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={position}>
-          <Popup>Your location</Popup>
-        </Marker>
-        {hospitals.map((hospital) => (
-          <Marker key={hospital.id} position={[hospital.lat, hospital.lon]}>
-            <Popup>{hospital.name}</Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+      </VStack>
+
+      {/* Render Map only when client-side and position available */}
+      {isClient && position && (
+        <MapContainer
+          center={position}
+          zoom={13}
+          style={{ height: "400px", width: "100%" }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <LocationMarker position={position} />
+          {hospitals.map((hospital) => (
+            <Marker key={hospital.id} position={[hospital.lat, hospital.lon]}>
+              <Popup>{hospital.tags.name || "Unnamed Hospital"}</Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      )}
     </Box>
   );
 };
