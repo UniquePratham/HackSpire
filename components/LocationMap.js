@@ -5,11 +5,13 @@ import {
   Box,
   Flex,
   Heading,
-  Button,
   VStack,
-  Slide,
   Text,
   IconButton,
+  Slide,
+  Spinner,
+  Link,
+  Button,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import L from "leaflet";
@@ -80,45 +82,54 @@ const MapComponent = () => {
       bgSize="cover"
       bgPosition="center"
       bgRepeat="no-repeat"
-      width="100%"
-      maxW="100%"
     >
       {/* Header Section */}
-      <Box p={4} bg="grey" shadow="md" w="full" position="relative" mb={2}>
-        <Button
-          variant="solid"
-          colorScheme="green"
-          onClick={() => setShowPanel(!showPanel)}
-          mr={3}
-        >
-          Find Hospitals
-        </Button>
-        <Button variant="solid" colorScheme="teal">
-          Health Portal
-        </Button>
-      </Box>
+      <Flex
+        p={4}
+        bg="white"
+        color="black"
+        align="center"
+        justify="space-between"
+        shadow="md"
+      >
+        <Heading size="md" fontFamily="inherit" fontWeight="bold">
+          Health Locator
+        </Heading>
+        <Flex>
+          <Button
+            variant="solid"
+            colorScheme="teal"
+            onClick={() => setShowPanel(!showPanel)}
+            size="md"
+          >
+            Find Hospitals 🏥
+          </Button>
+        </Flex>
+      </Flex>
 
       {/* Map and Side Panel */}
       <Flex
-        h="calc(100vh - 184px)"
         direction={{ base: "column", md: "row" }}
         justify="center"
-        alignItems="center"
+        h="calc(100vh - 80px)"
+        p={{ base: 4, md: 6 }}
       >
         {/* Map Section */}
         <Box
-          h="70vh"
-          w={{ base: "0%", md: "50%" }} // Hide map on mobile, show on desktop
-          display={{ base: "none", md: "block" }} // Hide map on mobile, show on desktop
+          h={{ base: "60vh", md: "70vh" }}
+          w="100%"
           position="relative"
-          border="1px solid #ccc"
           boxShadow="lg"
           borderRadius="lg"
           overflow="hidden"
+          bg="white"
+          border="1px solid #ccc"
+          mb={{ base: 6, md: 0 }}
+          zIndex={-5}
         >
           {loading ? (
             <Flex align="center" justify="center" h="100%">
-              <Text>Loading map...</Text>
+              <Spinner size="xl" color="teal.500" />
             </Flex>
           ) : (
             <MapContainer
@@ -152,19 +163,24 @@ const MapComponent = () => {
                   eventHandlers={{
                     click: () => {
                       setHighlightedHospital(hospital);
-                    }
+                    },
                   }}
                 >
                   <Popup>
-                    <Text fontWeight="bold">{hospital.name}</Text>
+                    <Text fontWeight="bold">
+                      <Link
+                        href={`https://www.google.com/maps/search/?api=1&query=${hospital.name}`}
+                        isExternal
+                        color="teal.500"
+                      >
+                        {hospital.name}
+                      </Link>
+                    </Text>
                   </Popup>
                 </Marker>
               ))}
               {highlightedHospital && (
                 <PanToMarker location={highlightedHospital} />
-              )}
-              {highlightedHospital && (
-                <PopupMarker location={highlightedHospital} />
               )}
             </MapContainer>
           )}
@@ -174,22 +190,18 @@ const MapComponent = () => {
         <Slide direction="right" in={showPanel} style={{ zIndex: 10 }}>
           <Box
             w={{ base: "full", md: "300px" }}
-            bg="cyan.700"
+            bg="white"
             p={4}
             shadow="xl"
-            h="100%" // Full height slide
+            h={{ base: "40vh", md: "100%" }}
+            borderRadius="lg"
+            overflowY="auto"
             border="1px solid #ccc"
-            overflowY="scroll" // Make slide scrollable
             position="relative"
+            zIndex={5}
           >
-            <Flex justify="space-between" alignItems="center">
-              <Heading
-                size="md"
-                mb={4}
-                textAlign="center"
-                fontFamily="monospace"
-                textShadow="2px 2px 5px rgba(0,0,0,0.2)"
-              >
+            <Flex justify="space-between" alignItems="center" mb={4}>
+              <Heading size="md" fontWeight="bold">
                 Nearby Hospitals
               </Heading>
               <IconButton
@@ -198,32 +210,36 @@ const MapComponent = () => {
                 size="sm"
                 onClick={() => setShowPanel(false)}
                 aria-label="Close"
-                color="white"
-                border="3px solid white"
-                fontSize={"medium"}
-                _hover={{ color: "black", border: "3px solid black" }}
+                border="1px solid teal"
+                color="teal.500"
               />
             </Flex>
+
             <VStack spacing={4} align="start">
               {nearbyHospitals.map((hospital) => (
-                <Box
+                <Link
+                  href={`https://www.google.com/maps/search/?api=1&query=${hospital.name}`}
+                  isExternal
                   key={hospital.id}
-                  p={4}
-                  borderWidth="1px"
-                  borderRadius="md"
                   w="full"
-                  boxShadow="sm"
-                  border="1px solid #ddd"
-                  bg="cyan.500"
-                  onClick={() => {
-                    setHighlightedHospital(hospital); // Highlight hospital on click
-                    setShowPanel(false); // Optionally close the panel
-                  }}
-                  cursor="pointer"
-                  _hover={{ bg: "gray.100" }}
+                  _hover={{ textDecoration: "none" }}
                 >
-                  <Text fontWeight="bold">{hospital.name}</Text>
-                </Box>
+                  <Box
+                    p={4}
+                    borderWidth="1px"
+                    borderRadius="md"
+                    w="full"
+                    boxShadow="sm"
+                    bg="teal.50"
+                    _hover={{ bg: "teal.100", transform: "scale(1.03)" }}
+                    transition="all 0.3s"
+                    cursor="pointer"
+                  >
+                    <Text fontWeight="bold" color="teal.700">
+                      {hospital.name}
+                    </Text>
+                  </Box>
+                </Link>
               ))}
             </VStack>
           </Box>
@@ -242,30 +258,6 @@ const PanToMarker = ({ location }) => {
       map.flyTo([location.latitude, location.longitude], 14, {
         animate: true,
       });
-    }
-  }, [location, map]);
-
-  return null;
-};
-
-// Helper component to show the popup of the clicked hospital
-const PopupMarker = ({ location }) => {
-  const map = useMap();
-  const [marker, setMarker] = useState(null);
-
-  useEffect(() => {
-    if (location) {
-      const marker = L.marker([location.latitude, location.longitude], {
-        icon: hospitalIcon
-      }).addTo(map);
-
-      marker.bindPopup(location.name);
-      marker.openPopup();
-      setMarker(marker);
-
-      return () => {
-        map.removeLayer(marker);
-      };
     }
   }, [location, map]);
 
