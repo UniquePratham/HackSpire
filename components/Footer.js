@@ -1,5 +1,14 @@
-import React from "react";
-import { Box, Flex, Icon, Link, Text, Input, Button } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Box,
+  Flex,
+  Icon,
+  Link,
+  Text,
+  Input,
+  Button,
+  useToast,
+} from "@chakra-ui/react";
 import { FiMapPin, FiPhone, FiMail } from "react-icons/fi";
 import {
   FaLinkedin,
@@ -8,8 +17,57 @@ import {
   FaTelegram,
   FaFacebook,
 } from "react-icons/fa";
+import emailjs from "emailjs-com"; // Import EmailJS
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const toast = useToast();
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+
+    if (email) {
+      emailjs
+        .send(
+          "service_vuu1jrw", // Service ID
+          "template_xxxxxxx", // Template ID from EmailJS
+          { user_email: email }, // Data being sent (email)
+          "user_xxxxxxxxx" // Public key from EmailJS
+        )
+        .then(
+          (response) => {
+            toast({
+              title: "Subscription Successful.",
+              description:
+                "You have successfully subscribed to our newsletter.",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+            setEmail(""); // Reset the email field after submission
+          },
+          (error) => {
+            toast({
+              title: "Subscription Failed.",
+              description:
+                "There was an issue with your subscription. Please try again.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          }
+        );
+    } else {
+      toast({
+        title: "Invalid Email.",
+        description: "Please enter a valid email address.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Box as="footer" py={8} bg="gray.700" color="white" px={4}>
       {/* Contact and Social Links */}
@@ -107,34 +165,39 @@ const Footer = () => {
           </Flex>
 
           {/* Newsletter subscription section */}
-          <Flex justify="center" flexDir="column" alignItems="center">
-            <Text mb={2} textAlign="center">
-              Subscribe to our newsletter
-            </Text>
-            <Flex>
-              <Input
-                placeholder="Enter your email"
-                bg="gray.600"
-                color="white"
-                size="lg"
-                mr={2}
-                _placeholder={{ color: "gray.400" }}
-              />
-              <Button
-                bg="gold"
-                size="lg"
-                color="black"
-                _hover={{
-                  bg: "black",
-                  color: "gold",
-                  boxShadow: "2px 2px 5px rgba(0,0,0,0.7)",
-                }}
-                transition="all 0.3s"
-              >
-                Subscribe
-              </Button>
+          <form onSubmit={handleSubscribe}>
+            <Flex justify="center" flexDir="column" alignItems="center">
+              <Text mb={2} textAlign="center">
+                Subscribe to our newsletter
+              </Text>
+              <Flex>
+                <Input
+                  placeholder="Enter your email"
+                  bg="gray.600"
+                  color="white"
+                  size="lg"
+                  mr={2}
+                  _placeholder={{ color: "gray.400" }}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Button
+                  type="submit"
+                  bg="gold"
+                  size="lg"
+                  color="black"
+                  _hover={{
+                    bg: "black",
+                    color: "gold",
+                    boxShadow: "2px 2px 5px rgba(0,0,0,0.7)",
+                  }}
+                  transition="all 0.3s"
+                >
+                  Subscribe
+                </Button>
+              </Flex>
             </Flex>
-          </Flex>
+          </form>
         </Box>
       </Flex>
 
