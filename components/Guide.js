@@ -1,7 +1,7 @@
 // pages/Guide.js
 import { Box, Flex, Text, Icon, VStack, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { FaHeartbeat, FaRobot, FaStethoscope, FaDonate, FaAmbulance } from 'react-icons/fa';
+import { FaHeartbeat, FaRobot, FaStethoscope, FaDonate, FaAmbulance, FaHospital, FaSearch, FaCalendarAlt } from 'react-icons/fa';
 
 const MotionBox = motion(Box);
 
@@ -58,6 +58,36 @@ const features = [
     details: `Donations are vital to sustaining and expanding our services. With the funds received, we aim to improve 
               healthcare accessibility, increase our technology reach, and maintain the quality of our offerings, ensuring 
               that users continue to benefit from our innovative solutions.`,
+  },
+  {
+    title: 'Menstrual Tracker',
+    description:
+      'Track your menstrual cycles with ease, helping you stay informed and plan better around your health and wellness.',
+    icon: FaCalendarAlt,
+    bg: 'pink.400',
+    details: `The Menstrual Tracker feature is designed to help women monitor their cycles accurately and conveniently. 
+              With predictive analytics, users can anticipate future cycles, track symptoms, and get personalized health tips. 
+              This tool promotes better self-care and provides essential insights for reproductive health and well-being.`,
+  },
+  {
+    title: 'Find a Doctor',
+    description:
+      'Search for doctors by specialty and location to find the best medical professional for your health needs.',
+    icon: FaSearch,
+    bg: 'blue.600',
+    details: `The Find a Doctor feature allows users to search for medical professionals near them based on specialty, 
+              ratings, and availability. By leveraging a vast network of healthcare providers, this tool simplifies 
+              the process of finding the right doctor, whether for a routine check-up or a specialized consultation.`,
+  },
+  {
+    title: 'Find Nearby Hospitals',
+    description:
+      'Discover nearby healthcare facilities and hospitals based on your current location, ensuring timely access to care.',
+    icon: FaHospital,
+    bg: 'green.400',
+    details: `The Find Nearby Hospitals feature uses location services to help users identify the closest healthcare 
+              facilities. This tool provides essential information such as hospital ratings, services offered, and 
+              emergency response times, ensuring users can access medical care quickly when it matters most.`,
   },
 ];
 
