@@ -58,15 +58,15 @@ const DeviceIntro = () => (
         well-being.
       </Text>
       <Image
-        src="https://images.unsplash.com/photo-1610370242545-4ba3a7a6d3e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMzQ3N3wwfDF8c2VhcmNofDEyfHxpbyUyMGRldmljZXMlMjBoZWFsdGhjYXJlfGVufDB8fHx8MTY5MjI0MjUyMg&ixlib=rb-1.2.1&q=80&w=1080"
+        src="CardioQ.png"
         alt="CardioQ Device"
         boxSize={useBreakpointValue({ base: "100%", md: "80%" })}
         objectFit="contain"
         borderRadius="xl"
         mx="auto"
         shadow="2xl"
-        height="220px"
-        width="auto"
+        height="auto"
+        width="250px"
         animation={`${zoomIn} 2s ease`}
       />
       <Text
