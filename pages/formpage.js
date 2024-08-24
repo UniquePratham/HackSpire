@@ -8,7 +8,7 @@ const Form = dynamic(() => import("@/components/Form"), {
   ssr: false,
 });
 
-export default function Form() {
+export default function Formpage() {
   return (
     <>
       <Navbar />
