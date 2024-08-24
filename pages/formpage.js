@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 const Navbar = dynamic(() => import("@/components/Navbar"), {
   ssr: false,
 });
+
 const Form = dynamic(() => import("@/components/Form"), {
   ssr: false,
 });
