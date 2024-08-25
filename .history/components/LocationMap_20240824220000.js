@@ -5,14 +5,13 @@ import {
   Box,
   Flex,
   Heading,
-  Button,
   VStack,
-  HStack,
-  Slide,
   Text,
   IconButton,
+  Slide,
+  Spinner,
   Link,
-  useDisclosure,
+  Button,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import L from "leaflet";
@@ -41,22 +40,27 @@ const MapComponent = () => {
   const [highlightedHospital, setHighlightedHospital] = useState(null);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation({ latitude, longitude });
-        fetchNearbyHospitals(latitude, longitude);
-      },
-      (error) => {
-        console.error("Error getting user location:", error);
-        setLoading(false);
-      },
-      { enableHighAccuracy: true }
-    );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
+          fetchNearbyHospitals(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+          setLoading(false);
+        },
+        { enableHighAccuracy: true }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+      setLoading(false);
+    }
   }, []);
 
   const fetchNearbyHospitals = async (latitude, longitude) => {
-    const overpassUrl = `https://overpass-api.de/api/interpreter?data=[out:json];node(around:5000,${latitude},${longitude})[amenity=hospital];out;`;
+    const overpassUrl = https://overpass-api.de/api/interpreter?data=[out:json];node(around:5000,${latitude},${longitude})[amenity=hospital];out;;
 
     try {
       const response = await fetch(overpassUrl);
@@ -75,59 +79,66 @@ const MapComponent = () => {
     }
   };
 
-  const handleGoogleRedirect = (hospital) => {
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${hospital.latitude},${hospital.longitude}`;
-    window.open(googleMapsUrl, "_blank");
-  };
-
   return (
-    <Box h="100vh" w="100%" bg="gray.50">
+    <Box
+      h="100vh"
+      w="100%" 
+    >
       {/* Header Section */}
-      <Box p={4} bg="grey" shadow="md" w="full" position="relative">
-        <HStack justify="space-between" color="white">
-          <Heading
-            size="lg"
-            fontFamily="sans-serif"
-            textShadow="2px 2px 5px rgba(255,255,255,0.2)"
+      <Flex
+        p={4}
+        bg="white"
+        color="black"
+        align="center"
+        justify="space-between"
+        shadow="md"
+      >
+        <Heading size="md" fontFamily="inherit" fontWeight="bold">
+          Health Locator
+        </Heading>
+        <Flex>
+          <Button
+            variant="solid"
+            colorScheme="teal"
+            onClick={() => setShowPanel(!showPanel)}
+            size="md"
           >
-            Vitality AI
-          </Heading>
-          <HStack spacing={4}>
-            <Button
-              variant="solid"
-              colorScheme="green"
-              onClick={() => setShowPanel(!showPanel)}
-            >
-              Find Hospitals
-            </Button>
-          </HStack>
-        </HStack>
-      </Box>
+            Find Hospitals 🏥
+          </Button>
+        </Flex>
+      </Flex>
 
       {/* Map and Side Panel */}
       <Flex
-        h="calc(100vh - 184px)"
         direction={{ base: "column", md: "row" }}
         justify="center"
-        alignItems="center"
+        h="calc(100vh - 80px)"
+        p={{ base: 4, md: 6 }}
       >
         {/* Map Section */}
         <Box
-          h="70vh"
-          w={{ base: "100%", md: "50%" }}
+          h={{ base: "60vh", md: "70vh" }}
+          w="100%"
           position="relative"
-          border="1px solid #ccc"
           boxShadow="lg"
           borderRadius="lg"
           overflow="hidden"
+          bg="white"
+          border="1px solid #ccc"
+          mb={{ base: 6, md: 0 }}
+          zIndex={-5}
         >
           {loading ? (
             <Flex align="center" justify="center" h="100%">
-              <Text>Loading map...</Text>
+              <Spinner size="xl" color="teal.500" />
             </Flex>
-          ) : userLocation ? (
+          ) : (
             <MapContainer
-              center={[userLocation.latitude, userLocation.longitude]} // Use user's location for map center
+              center={
+                userLocation
+                  ? [userLocation.latitude, userLocation.longitude]
+                  : [51.505, -0.09] // Default fallback center
+              }
               zoom={14}
               style={{ height: "100%", width: "100%" }}
             >
@@ -150,16 +161,22 @@ const MapComponent = () => {
                   key={hospital.id}
                   position={[hospital.latitude, hospital.longitude]}
                   icon={hospitalIcon}
-                  opacity={
-                    highlightedHospital &&
-                    hospital.latitude === highlightedHospital.latitude &&
-                    hospital.longitude === highlightedHospital.longitude
-                      ? 1.0
-                      : 0.7
-                  }
+                  eventHandlers={{
+                    click: () => {
+                      setHighlightedHospital(hospital);
+                    },
+                  }}
                 >
                   <Popup>
-                    <Text fontWeight="bold">{hospital.name}</Text>
+                    <Text fontWeight="bold">
+                      <Link
+                        href={https://www.google.com/maps/search/?api=1&query=${hospital.name}}
+                        isExternal
+                        color="teal.500"
+                      >
+                        {hospital.name}
+                      </Link>
+                    </Text>
                   </Popup>
                 </Marker>
               ))}
@@ -167,10 +184,6 @@ const MapComponent = () => {
                 <PanToMarker location={highlightedHospital} />
               )}
             </MapContainer>
-          ) : (
-            <Flex align="center" justify="center" h="100%">
-              <Text>Location access denied or unavailable</Text>
-            </Flex>
           )}
         </Box>
 
@@ -181,13 +194,15 @@ const MapComponent = () => {
             bg="white"
             p={4}
             shadow="xl"
-            h="100%"
+            h={{ base: "40vh", md: "100%" }}
+            borderRadius="lg"
+            overflowY="auto"
             border="1px solid #ccc"
-            overflowY="scroll"
             position="relative"
+            zIndex={5}
           >
-            <Flex justify="space-between" alignItems="center">
-              <Heading size="md" mb={4}>
+            <Flex justify="space-between" alignItems="center" mb={4}>
+              <Heading size="md" fontWeight="bold">
                 Nearby Hospitals
               </Heading>
               <IconButton
@@ -196,33 +211,37 @@ const MapComponent = () => {
                 size="sm"
                 onClick={() => setShowPanel(false)}
                 aria-label="Close"
+                border="1px solid teal"
+                color="teal.500"
               />
             </Flex>
+
             <VStack spacing={4} align="start">
               {nearbyHospitals.map((hospital) => (
-                <Box
+                <Link
+                  href={https://www.google.com/maps/search/?api=1&query=${hospital.name}}
+                  isExternal
                   key={hospital.id}
-                  p={4}
-                  borderWidth="1px"
-                  borderRadius="md"
                   w="full"
-                  boxShadow="sm"
-                  border="1px solid #ddd"
-                  onClick={() => setHighlightedHospital(hospital)}
-                  cursor="pointer"
-                  _hover={{ bg: "gray.100" }}
+                  _hover={{ textDecoration: "none" }}
                 >
-                  <Text fontWeight="bold">{hospital.name}</Text>
-                  <Link
-                    color="blue.500"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent map pan when clicking on the link
-                      handleGoogleRedirect(hospital);
-                    }}
+                  <Box
+                    p={4}
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    shadow="md"
+                    w="full"
+                    onClick={() => setHighlightedHospital(hospital)}
+                    cursor="pointer"
+                    _hover={{ bg: "teal.50" }}
                   >
-                    View on Google Maps
-                  </Link>
-                </Box>
+                    <Text fontWeight="bold" color="teal.500">
+                      {hospital.name}
+                    </Text>
+                    <Text fontSize="sm">Lat: {hospital.latitude}</Text>
+                    <Text fontSize="sm">Lon: {hospital.longitude}</Text>
+                  </Box>
+                </Link>
               ))}
             </VStack>
           </Box>
@@ -232,19 +251,19 @@ const MapComponent = () => {
   );
 };
 
-// Helper component to pan the map to the clicked hospital
+export default MapComponent;
+
+// Utility for panning the map to a specific marker
 const PanToMarker = ({ location }) => {
   const map = useMap();
-
   useEffect(() => {
     if (location) {
       map.flyTo([location.latitude, location.longitude], 14, {
         animate: true,
+        duration: 1.5,
       });
     }
   }, [location, map]);
 
   return null;
 };
-
-export default MapComponent;

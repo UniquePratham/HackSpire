@@ -1,201 +1,201 @@
-// components/ChatBot.js
 import { useState } from "react";
 import {
   Box,
-  Input,
   Button,
+  Input,
+  Select,
   Text,
-  Flex,
+  Heading,
   VStack,
-  IconButton,
+  Spinner,
+  Image,
+  Link,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { motion } from "framer-motion";
-import { AiOutlineClose } from "react-icons/ai";
-import { FaPaperPlane, FaRobot } from "react-icons/fa";
 
-const MotionBox = motion(Box);
+const appId = process.env.NEXT_PUBLIC_WOLFRAM_APP_ID;
 
-const ChatBot = () => {
-  const [query, setQuery] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+export default function AIDiagnosis() {
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [symptoms, setSymptoms] = useState("");
+  const [diagnosis, setDiagnosis] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleQuerySubmit = async () => {
-    if (!query) return;
-
-    // Replace spaces with '+' in the query
-    const formattedQuery = query.split(" ").join("+");
-
-    // Construct the URL
-    const requestUrl = `https://cors-anywhere.herokuapp.com/https://api.wolframalpha.com/v2/query?input=${formattedQuery}&format=plaintext&output=JSON&appid=LYYUH3-6K982RERP2`;
-
-
-    console.log(requestUrl);
-
-    // Add user message
-    setMessages([...messages, { text: query, type: "user" }]);
-    setQuery("");
+  const handleDiagnosis = async () => {
+    setLoading(true);
+    setDiagnosis(null);
 
     try {
-      const res = await fetch(requestUrl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.get("/api/proxyDiagnosis", {
+        params: {
+          age: age,
+          gender: gender,
+          symptoms: symptoms,
         },
       });
 
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await res.json();
-
-      const resultPod = data.queryresult.pods.find(
-        (pod) => pod.title === "Result"
-      );
-      const botResponse = resultPod
-        ? resultPod.subpods[0].plaintext
-        : "No answer found.";
-
-      // Add bot message
-      setMessages([...messages, { text: botResponse, type: "bot" }]);
+      // Directly set the response text as received
+      setDiagnosis(response.data);
     } catch (error) {
-      console.error("Error fetching data from Wolfram API:", error);
-      setMessages([
-        ...messages,
-        { text: "Sorry, I encountered an error.", type: "bot" },
-      ]);
+      setDiagnosis("An error occurred while fetching the diagnosis.");
+      console.error("Diagnosis error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
-    <>
-      {/* Chat Icon */}
-      <MotionBox
-        position="fixed"
-        bottom="10px"
-        left="10px"
-        borderRadius="full"
-        backgroundColor="red.500"
-        boxShadow="md"
-        padding="10px"
-        cursor="pointer"
-        onClick={() => setIsOpen(!isOpen)}
-        initial={{ scale: 0.8 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.3 }}
-        zIndex={1000}
-      >
-        <IconButton
-          justify="center"
-          display="flex"
-          icon={<FaRobot />}
-          aria-label="Chat with AI"
-          variant="unstyled"
-          color="white"
-          fontSize="24px"
-        />
-      </MotionBox>
+  // Utility function to format the diagnosis string into structured layout
+  const formatDiagnosis = (diagnosis) => {
+    const formattedDiagnosis = [];
 
-      {/* Chat Interface */}
-      {isOpen && (
-        <MotionBox
-          position="fixed"
-          bottom="0"
-          left="0"
-          width="360px"
-          height="480px"
-          borderRadius="8px"
-          backgroundColor="white"
-          boxShadow="lg"
-          zIndex="1000"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isOpen ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Flex direction="column" height="100%">
-            <Box
-              backgroundColor="red.500"
-              color="white"
-              padding="4"
-              borderTopRadius="8px"
-              position="relative"
-              textAlign="center"
-            >
-              <Text fontWeight="bold" fontSize="lg">
-                Talk with Wolfram AI
-              </Text>
-              <IconButton
-                position="absolute"
-                top="4px"
-                right="4px"
-                onClick={() => setIsOpen(false)}
-                variant="link"
-                color="white"
-                fontSize="24px"
-                aria-label="Close Chat"
-                icon={<AiOutlineClose />}
-              />
+    // Splitting by double newlines to separate different sections
+    const sections = diagnosis.split(/\n{2,}/);
+
+    sections.forEach((section) => {
+      // Splitting by single newlines to get key-value pairs or text blocks
+      const lines = section.split("\n").filter((line) => line.trim() !== "");
+
+      if (lines.length === 1) {
+        // Single line is either a title or non-parsed text
+        formattedDiagnosis.push(<Text fontWeight="bold" mt={4}>{lines[0]}</Text>);
+      } else if (lines.length > 1) {
+        // Handle key-value like structures or multiple lines in a block
+        const key = lines[0].replace(":", "").trim(); // First line is treated as a key
+
+        if (key === "Characteristics of patients" && lines[1].startsWith("image:")) {
+          // Handle the image separately
+          const imageUrl = lines[1].replace("image:", "").trim();
+          formattedDiagnosis.push(
+            <Box key={key} mt={4}>
+              <Text fontWeight="bold">{key}</Text>
+              <Image src={imageUrl} alt="Diagnosis Image" mt={2} width="100%" />
             </Box>
-
-            <VStack
-              spacing="3"
-              align="stretch"
-              padding="4"
-              flex="1"
-              overflowY="auto"
-              backgroundColor="gray.100"
-            >
-              {messages.map((msg, index) => (
-                <Box
-                  key={index}
-                  padding="3"
-                  borderRadius="md"
-                  backgroundColor={
-                    msg.type === "user" ? "blue.100" : "green.100"
-                  }
-                  alignSelf={msg.type === "user" ? "flex-end" : "flex-start"}
-                  maxWidth="80%"
-                >
-                  <Text>{msg.text}</Text>
-                </Box>
+          );
+        } else if (key.startsWith("Wolfram|Alpha website result")) {
+          // Handle the link separately
+          const linkUrl = lines[1].trim();
+          formattedDiagnosis.push(
+            <Box key={key} mt={4}>
+              <Text fontWeight="bold">{key}</Text>
+              <Link href={linkUrl} color="teal.500" isExternal mt={2}>
+                View Detailed Report
+              </Link>
+            </Box>
+          );
+        } else {
+          // Handle the key-value pairs or text blocks
+          formattedDiagnosis.push(
+            <Box key={key} mt={4}>
+              <Text fontWeight="bold">{key}</Text>
+              {lines.slice(1).map((value, index) => (
+                <Text key={index} whiteSpace="pre-wrap">
+                  {value}
+                </Text>
               ))}
-            </VStack>
+            </Box>
+          );
+        }
+      }
+    });
 
-            <Flex
-              as="form"
-              padding="2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleQuerySubmit();
-              }}
-              alignItems="center"
-              backgroundColor="white"
-            >
-              <Input
-                placeholder="Type your question..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                marginRight="2"
-                size="md"
-                borderRadius="md"
-                backgroundColor="gray.50"
-                borderColor="gray.200"
-              />
-              <Button
-                type="submit"
-                colorScheme="blue"
-                size="md"
-                borderRadius="md"
-              >
-                <FaPaperPlane />
-              </Button>
-            </Flex>
-          </Flex>
-        </MotionBox>
+    return formattedDiagnosis;
+  };
+
+  return (
+    <VStack
+      as={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition="0.5s ease-in-out"
+      minH="100vh"
+      bgGradient="linear(to-b, blue.900, teal.600)"
+      align="center"
+      justify="center"
+      p={6}
+      spacing={[8, 12, 16]} // Responsive spacing between elements
+    >
+      <Heading
+        color="white"
+        mb={8}
+        fontSize={["2xl", "3xl", "4xl"]} // Responsive font sizes
+        textAlign="center" // Center text for small screens
+      >
+        AI Diagnosis Using Wolfram Alpha LLM API
+      </Heading>
+      <Text color="white">The Wolfram Alpha LLM API combines the computational intelligence of Wolfram Alpha with natural language processing, allowing developers to integrate advanced knowledge computation, data analysis, and real-world problem-solving capabilities into applications using a natural language interface. It excels in fields like mathematics, science, engineering, and knowledge queries, delivering precise and data-driven responses to complex questions.</Text>
+
+      <Box
+        bg="white"
+        p={[4, 6, 8]} // Responsive padding
+        borderRadius="md"
+        boxShadow="xl"
+        w="full"
+        maxW={["sm", "md", "lg"]} // Responsive width
+        as={motion.div}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Text mb={4}>Enter your details and symptoms:</Text>
+
+        <Input
+          placeholder="Age"
+          mb={4}
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          size={["sm", "md", "lg"]} // Responsive input size
+        />
+
+        <Select
+          placeholder="Select Gender"
+          mb={4}
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          size={["sm", "md", "lg"]} // Responsive select size
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </Select>
+
+        <Input
+          placeholder="Enter your symptoms"
+          mb={4}
+          value={symptoms}
+          onChange={(e) => setSymptoms(e.target.value)}
+          size={["sm", "md", "lg"]} // Responsive input size
+        />
+
+        <Button
+          colorScheme="teal"
+          size="lg"
+          w="full"
+          onClick={handleDiagnosis}
+          py={[4, 6]} // Responsive button padding
+        >
+          Get Diagnosis
+        </Button>
+      </Box>
+
+      {loading ? (
+        <Spinner size="xl" color="white" mt={8} />
+      ) : (
+        diagnosis && (
+          <Box
+            mt={8}
+            p={[4, 6, 8]} // Responsive padding
+            bg="white"
+            borderRadius="md"
+            shadow="xl"
+            textAlign="center"
+            w="full"
+            maxW={["sm", "md", "lg"]} // Responsive width
+          >
+            {formatDiagnosis(diagnosis)}
+          </Box>
+        )
       )}
-    </>
+    </VStack>
   );
-};
-
-export default ChatBot;
+}

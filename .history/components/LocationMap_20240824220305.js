@@ -1,18 +1,18 @@
 import "leaflet/dist/leaflet.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import {
   Box,
   Flex,
   Heading,
   Button,
+  Input,
   VStack,
   HStack,
   Slide,
   Text,
+  Stack,
   IconButton,
-  Link,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import L from "leaflet";
@@ -24,13 +24,12 @@ const hospitalIcon = new L.Icon({
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
 });
-
 // Custom user location icon
 const userIcon = new L.Icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png", // URL to a custom icon
+  iconSize: [32, 32], // Adjust size as needed
+  iconAnchor: [16, 32], // Anchor at the center bottom
+  popupAnchor: [0, -32], // Position the popup above the icon
 });
 
 const MapComponent = () => {
@@ -75,23 +74,18 @@ const MapComponent = () => {
     }
   };
 
-  const handleGoogleRedirect = (hospital) => {
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${hospital.latitude},${hospital.longitude}`;
-    window.open(googleMapsUrl, "_blank");
+  // Pan map to the clicked hospital
+  const panToHospital = (latitude, longitude) => {
+    setHighlightedHospital({ latitude, longitude });
+    setShowPanel(false);
   };
 
   return (
     <Box h="100vh" w="100%" bg="gray.50">
       {/* Header Section */}
-      <Box p={4} bg="grey" shadow="md" w="full" position="relative">
+      <Box p={4} bg="green.600" shadow="md" w="full" position="relative">
         <HStack justify="space-between" color="white">
-          <Heading
-            size="lg"
-            fontFamily="sans-serif"
-            textShadow="2px 2px 5px rgba(255,255,255,0.2)"
-          >
-            Vitality AI
-          </Heading>
+          <Heading size="lg">Vitality AI</Heading>
           <HStack spacing={4}>
             <Button
               variant="solid"
@@ -100,9 +94,27 @@ const MapComponent = () => {
             >
               Find Hospitals
             </Button>
+            <Button variant="solid" colorScheme="teal">
+              Health Portal
+            </Button>
+            <Button variant="outline" colorScheme="red">
+              Emergency
+            </Button>
           </HStack>
         </HStack>
       </Box>
+
+      {/* Search Section */}
+      <Flex p={4} bg="white" shadow="sm" justify="center" zIndex={2}>
+        <Input
+          placeholder="Search for a hospital or location..."
+          size="lg"
+          width={["90%", "60%"]}
+          borderRadius="full"
+          boxShadow="md"
+          border="1px solid #ccc"
+        />
+      </Flex>
 
       {/* Map and Side Panel */}
       <Flex
@@ -114,20 +126,17 @@ const MapComponent = () => {
         {/* Map Section */}
         <Box
           h="70vh"
-          w={{ base: "100%", md: "50%" }}
+          w={{ base: "0%", md: "50%" }} // Hide map on mobile, show on desktop
+          display={{ base: "none", md: "block" }} // Hide map on mobile, show on desktop
           position="relative"
           border="1px solid #ccc"
           boxShadow="lg"
           borderRadius="lg"
           overflow="hidden"
         >
-          {loading ? (
-            <Flex align="center" justify="center" h="100%">
-              <Text>Loading map...</Text>
-            </Flex>
-          ) : userLocation ? (
+          {userLocation ? (
             <MapContainer
-              center={[userLocation.latitude, userLocation.longitude]} // Use user's location for map center
+              center={[userLocation.latitude, userLocation.longitude]}
               zoom={14}
               style={{ height: "100%", width: "100%" }}
             >
@@ -135,16 +144,15 @@ const MapComponent = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
-              {userLocation && (
-                <Marker
-                  position={[userLocation.latitude, userLocation.longitude]}
-                  icon={userIcon}
-                >
-                  <Popup>
-                    <Text fontWeight="bold">You are here</Text>
-                  </Popup>
-                </Marker>
-              )}
+              <Marker
+                position={[userLocation.latitude, userLocation.longitude]}
+                icon={userIcon} // Use the custom icon
+              >
+                <Popup>
+                  <Text fontWeight="bold">You are here</Text>
+                </Popup>
+              </Marker>
+
               {nearbyHospitals.map((hospital) => (
                 <Marker
                   key={hospital.id}
@@ -155,7 +163,7 @@ const MapComponent = () => {
                     hospital.latitude === highlightedHospital.latitude &&
                     hospital.longitude === highlightedHospital.longitude
                       ? 1.0
-                      : 0.7
+                      : 0.5
                   }
                 >
                   <Popup>
@@ -163,13 +171,11 @@ const MapComponent = () => {
                   </Popup>
                 </Marker>
               ))}
-              {highlightedHospital && (
-                <PanToMarker location={highlightedHospital} />
-              )}
+              {highlightedHospital && <PanToMarker location={highlightedHospital} />}
             </MapContainer>
           ) : (
             <Flex align="center" justify="center" h="100%">
-              <Text>Location access denied or unavailable</Text>
+              <Text>Loading map...</Text>
             </Flex>
           )}
         </Box>
@@ -181,9 +187,9 @@ const MapComponent = () => {
             bg="white"
             p={4}
             shadow="xl"
-            h="100%"
+            h="100%" // Full height slide
             border="1px solid #ccc"
-            overflowY="scroll"
+            overflowY="scroll" // Make slide scrollable
             position="relative"
           >
             <Flex justify="space-between" alignItems="center">
@@ -208,20 +214,11 @@ const MapComponent = () => {
                   w="full"
                   boxShadow="sm"
                   border="1px solid #ddd"
-                  onClick={() => setHighlightedHospital(hospital)}
+                  onClick={() => panToHospital(hospital.latitude, hospital.longitude)} // Pan to hospital on click
                   cursor="pointer"
                   _hover={{ bg: "gray.100" }}
                 >
                   <Text fontWeight="bold">{hospital.name}</Text>
-                  <Link
-                    color="blue.500"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent map pan when clicking on the link
-                      handleGoogleRedirect(hospital);
-                    }}
-                  >
-                    View on Google Maps
-                  </Link>
                 </Box>
               ))}
             </VStack>
