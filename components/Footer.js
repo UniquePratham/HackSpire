@@ -74,7 +74,7 @@ const Footer = () => {
   };
 
   return (
-    <Box as="footer" py={8} bg="gray.900" color="white" px={4}>
+    <Box as="footer" py={8} bg="black" color="white" px={4}>
       <Flex
         direction={{ base: "column", md: "row" }}
         justify={{ base: "center", md: "space-between" }}
@@ -85,32 +85,36 @@ const Footer = () => {
         mb={8}
       >
         {/* Left part: Contact Information */}
-        <Box textAlign={{ base: "center", md: "left" }} mb={{ base: 6, md: 0 }}>
+        <Box
+          textAlign={{ base: "center", md: "left" }}
+          mb={{ base: 6, md: 0 }}
+          zIndex={1}
+        >
           <Text fontSize="xl" fontWeight="bold" mb={2}>
             Contact Us
           </Text>
           <Flex align="center" mb={4}>
-            <Icon as={FiMapPin} mr={2} color="cyan.400" />
+            <Icon as={FiMapPin} mr={2} color="pink.400" cursor="pointer" />
             <Text
-              _hover={{ color: "green.300", transition: "color 0.3s" }}
+              _hover={{ color: "purple.300", transition: "color 0.3s" }}
               cursor="pointer"
             >
               Salt Lake, Kolkata- 700138
             </Text>
           </Flex>
           <Flex align="center" mb={4}>
-            <Icon as={FiPhone} mr={2} color="red.400" />
+            <Icon as={FiPhone} mr={2} color="purple.400" cursor="pointer" />
             <Text
-              _hover={{ color: "green.300", transition: "color 0.3s" }}
+              _hover={{ color: "pink.300", transition: "color 0.3s" }}
               cursor="pointer"
             >
               +91 9674177512
             </Text>
           </Flex>
           <Flex align="center" mb={4}>
-            <Icon as={FiMail} mr={2} color="yellow.400" />
+            <Icon as={FiMail} mr={2} color="magenta" cursor="pointer" />
             <Text
-              _hover={{ color: "green.300", transition: "color 0.3s" }}
+              _hover={{ color: "purple.300", transition: "color 0.3s" }}
               cursor="pointer"
             >
               shaswata.ssaha@gmail.com
@@ -128,7 +132,12 @@ const Footer = () => {
           </Text>
           <form onSubmit={handleSubscribe}>
             <Flex direction="column" alignItems="center">
-              <Flex w={{ base: "100%", md: "auto" }} mb={4} direction="column" alignItems="center">
+              <Flex
+                w={{ base: "100%", md: "auto" }}
+                mb={4}
+                direction="column"
+                alignItems="center"
+              >
                 <Input
                   placeholder="Enter your username"
                   bg="gray.700"
@@ -138,7 +147,6 @@ const Footer = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   _placeholder={{ color: "gray.400" }}
                   m={2}
-
                 />
                 <Input
                   placeholder="Enter your email"
@@ -153,10 +161,10 @@ const Footer = () => {
                 <Button
                   type="submit"
                   size="lg"
-                  bg="cyan.400"
+                  bg="purple.300"
                   color="black"
                   _hover={{
-                    bg: "cyan.500",
+                    bg: "purple.800",
                     color: "white",
                     boxShadow: "0px 0px 10px rgba(72, 187, 250, 0.7)",
                   }}
@@ -226,7 +234,7 @@ const Footer = () => {
           <Link
             href="https://acns.vercel.app"
             isExternal
-            color="cyan.500"
+            color="pink.500"
             _hover={{ color: "white", transition: "color 0.3s" }}
           >
             ACNS

@@ -110,7 +110,7 @@ export default function AIDiagnosis() {
       animate={{ opacity: 1 }}
       transition="0.5s ease-in-out"
       minH="100vh"
-      bgGradient="linear(to-b, blue.900, teal.600)"
+      bgGradient="linear(to-b, pink.900, purple.600)"
       align="center"
       justify="center"
       p={6}
@@ -168,7 +168,7 @@ export default function AIDiagnosis() {
         />
 
         <Button
-          colorScheme="teal"
+          colorScheme="pink"
           size="lg"
           w="full"
           onClick={handleDiagnosis}

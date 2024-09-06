@@ -1,10 +1,8 @@
-// pages/Guide.js
 import {
   Box,
   Flex,
   Text,
   Icon,
-  VStack,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -81,11 +79,11 @@ const features = [
               that users continue to benefit from our innovative solutions.`,
   },
   {
-    title: 'Disease Prediction',
+    title: "Disease Prediction",
     description:
-      'Predict possible health conditions based on symptoms and health data to help you stay informed and take preventive actions.',
+      "Predict possible health conditions based on symptoms and health data to help you stay informed and take preventive actions.",
     icon: FaDiagnoses,
-    bg: 'teal.600',
+    bg: "teal.600",
     details: `The Disease Prediction feature uses advanced analytics to assess symptoms and provide potential health diagnoses. 
               This tool helps users anticipate possible conditions, track relevant symptoms, and receive personalized insights for proactive healthcare management. 
               It's designed to support better health awareness, enabling early intervention and improving overall well-being.`,
@@ -124,17 +122,54 @@ const features = [
 
 const Guide = () => {
   return (
-    <Flex direction="column" align="center" p={10}>
+    <Flex
+      direction="column"
+      align="center"
+      p={10}
+      // bgGradient="linear(to-r, rgba(255, 255, 255, 1), rgba(0, 0, 0, 1))"
+      bg="rgba(0,0,0,0.7)"
+      position="relative"
+      overflow="hidden"
+    >
+      <Box
+        position="absolute"
+        top="0"
+        left="50%"
+        transform="translateX(-50%)"
+        width="80%" // Adjust the width for less than the full width of the component
+        height="100%"
+        bg="linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))"
+        borderRadius="lg"
+        boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
+        backdropFilter="blur(10px)"
+        border="1px solid rgba(255, 255, 255, 0.3)"
+        zIndex="0"
+        _before={{
+          content: `""`,
+          position: "absolute",
+          top: "0",
+          left: "0",
+          right: "0",
+          bottom: "0",
+          background:
+            "linear-gradient(to top right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2))",
+          opacity: 0.5,
+          borderRadius: "lg",
+        }}
+      />
+
       <Text
         fontSize="4xl"
         fontWeight="bold"
         mb={8}
         fontFamily="cursive"
         textShadow="2px 2px 5px rgba(0,0,0,0.2)"
+        zIndex="1"
       >
         Explore Our Features
       </Text>
-      <Accordion allowToggle w="100%" maxW="800px">
+
+      <Accordion allowToggle w="100%" maxW="800px" zIndex="1">
         {features.map((feature, index) => (
           <AccordionItem key={index} border="none">
             <MotionBox
@@ -150,6 +185,7 @@ const Guide = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
               mb={4}
+              zIndex="1"
             >
               <AccordionButton>
                 <Flex flex="1" align="center" justifyContent="space-between">
@@ -173,6 +209,7 @@ const Guide = () => {
               transform="scale(1.05)" // Slightly enlarges the expanded box
               transition="transform 0.3s ease-in-out" // Smooth transition for 3D effect
               mt={-2} // Minor offset to elevate the expanded box
+              zIndex="1"
             >
               <Box
                 p={4}

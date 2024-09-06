@@ -118,7 +118,7 @@ const WC = () => {
         >
           {/* Women&apos;s Care Section */}
           <VStack
-            bg="blue.500"
+            bgGradient="linear(to-r, pink.600, purple.200)"
             color="white"
             p={[4, 6]} // Responsive padding
             borderRadius="md"
@@ -136,14 +136,15 @@ const WC = () => {
               Women&apos;s Care
             </Heading>
             <Text fontSize={["sm", "md"]}>
-              Comprehensive care for women&apos;s health, including gynecological
-              services, reproductive health, and general wellness checks.
+              Comprehensive care for women&apos;s health, including
+              gynecological services, reproductive health, and general wellness
+              checks.
             </Text>
           </VStack>
 
           {/* Child Care Section */}
           <VStack
-            bg="yellow.500"
+            bgGradient="linear(to-r, pink.300, purple.300)"
             color="black"
             p={[4, 6]} // Responsive padding
             borderRadius="md"
@@ -168,7 +169,7 @@ const WC = () => {
 
           {/* Pregnancy Care Section */}
           <VStack
-            bg="red.500"
+            bgGradient="linear(to-r, pink.200, purple.600)"
             color="white"
             p={[4, 6]} // Responsive padding
             borderRadius="md"
