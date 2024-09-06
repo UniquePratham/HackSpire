@@ -1,32 +1,45 @@
 import { useState } from "react";
-import SponsoredMedicines from "../components/SponsoredMedicines";
-import Cart from "../components/Cart";
-import { Box, Flex, Button } from "@chakra-ui/react";
+import SponsoredMedicines from "@/components/SponsoredMedicines";
+import { Button, Flex } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
+const Navbar = dynamic(() => import("@/components/Navbar"), {
+  ssr: false,
+});
+import Footer from "@/components/Footer";
+import { useRouter } from "next/router";
 
-export default function Home() {
+const BuyMedicinePage = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [showCart, setShowCart] = useState(false);
+  const router = useRouter();
 
   const addItemToCart = (item) => {
-    setCartItems([...cartItems, item]);
-  };
-
-  const removeItemFromCart = (index) => {
-    setCartItems(cartItems.filter((_, i) => i !== index));
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((i) => i.name === item.name);
+      if (existingItem) {
+        return prevItems.map((i) =>
+          i.name === item.name
+            ? { ...i, quantity: i.quantity + item.quantity }
+            : i
+        );
+      } else {
+        return [...prevItems, item];
+      }
+    });
   };
 
   return (
-    <Box>
-      <Flex justify="space-between" p={5} background="blue.600" color="white">
-        <Button colorScheme="teal" onClick={() => setShowCart(false)}>Medicines</Button>
-        <Button colorScheme="teal" onClick={() => setShowCart(true)}>Cart ({cartItems.length})</Button>
-      </Flex>
-      
-      {showCart ? (
-        <Cart cartItems={cartItems} removeItem={removeItemFromCart} />
-      ) : (
-        <SponsoredMedicines addItemToCart={addItemToCart} />
-      )}
-    </Box>
+    <>
+      <Navbar />
+      <div>
+        <SponsoredMedicines
+          addItemToCart={addItemToCart}
+          cartItems={cartItems}
+          numberofCartItems={cartItems.length}
+        />
+      </div>
+      <Footer />
+    </>
   );
-}
+};
+
+export default BuyMedicinePage;

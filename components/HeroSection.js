@@ -78,7 +78,7 @@ export default function HeroSection() {
           zIndex: -1,
         }}
       >
-        <source src="/video.mp4" type="video/mp4" />
+        <source src="bg_home2.mp4" type="video/mp4" />
       </video>
 
       {/* Overlay */}
@@ -120,7 +120,11 @@ export default function HeroSection() {
               animation={`${typing} 4s steps(40)`}
               animationFillMode="forwards"
               transition="transform 0.3s ease, color 0.3s ease"
-              _hover={{ color: "cyan", transform: "scale(1.05)" }}
+              _hover={{
+                color: "purple.700",
+                textShadow: "2px 2px 7px rgba(255,255,255,0.2)",
+                transform: "scale(1.05)",
+              }}
               cursor="pointer"
             >
               Vitality AI
@@ -128,7 +132,7 @@ export default function HeroSection() {
             <Text
               fontSize={["lg", "xl"]}
               transition="color 0.3s ease"
-              _hover={{ color: "teal.300" }}
+              _hover={{ color: "pink.300" }}
               pb={5}
             >
               Stay updated with the latest technology in Medicine.
@@ -165,13 +169,13 @@ export default function HeroSection() {
               transition="border-color 0.3s ease, box-shadow 0.3s ease"
             />
             <Button
-              colorScheme="green"
+              colorScheme="pink"
               size="lg"
               width={{ base: "20%", md: "auto" }}
               ml={{ base: 0, md: 1 }}
               mt={{ base: 2, md: 0 }}
-              _hover={{ bg: "green.600", transform: "scale(1.05)" }}
-              _active={{ bg: "green.700" }}
+              _hover={{ bg: "pink.600", transform: "scale(1.05)" }}
+              _active={{ bg: "magenta" }}
               transition="transform 0.3s ease, background-color 0.3s ease"
               rightIcon={<ArrowForwardIcon />}
             >
@@ -188,7 +192,7 @@ export default function HeroSection() {
           gap={4}
         >
           <Button
-            bg="blue.500"
+            bgGradient="linear(to-r, pink.600, purple.200)"
             color="white"
             size="lg"
             _hover={{ bg: "blue.600", transform: "scale(1.05)" }}
@@ -214,7 +218,7 @@ export default function HeroSection() {
           </Button>
 
           <Button
-            bg="red.500"
+            bgGradient="linear(to-r, pink.300, purple.300)"
             color="white"
             size="lg"
             height={{ base: "auto", md: "250px" }}
@@ -240,7 +244,7 @@ export default function HeroSection() {
           </Button>
 
           <Button
-            bg="yellow.500"
+            bgGradient="linear(to-r, pink.200, purple.600)"
             color="white"
             height={{ base: "20vh", md: "250px" }}
             size="lg"
