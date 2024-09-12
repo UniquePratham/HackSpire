@@ -1,17 +1,26 @@
 // components/DoctorList.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Box, Input, Select, Grid, Flex, Text, Button, Image } from '@chakra-ui/react';
-import { FaStethoscope } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {
+  Box,
+  Input,
+  Select,
+  Grid,
+  Flex,
+  Text,
+  Button,
+  Image,
+} from "@chakra-ui/react";
+import { FaStethoscope } from "react-icons/fa";
 
 const DoctorList = () => {
   const [doctors, setDoctors] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [specialtyFilter, setSpecialtyFilter] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [specialtyFilter, setSpecialtyFilter] = useState("");
 
   // Fetch data from the Random User API
   useEffect(() => {
-    axios.get('https://randomuser.me/api/?results=20').then((res) => {
+    axios.get("https://randomuser.me/api/?results=20").then((res) => {
       const formattedDoctors = res.data.results.map((user) => ({
         name: `${user.name.first} ${user.name.last}`,
         specialty: getRandomSpecialty(),
@@ -24,7 +33,13 @@ const DoctorList = () => {
 
   // Random specialties
   const getRandomSpecialty = () => {
-    const specialties = ['Cardiology', 'Pediatrics', 'Neurology', 'Dermatology', 'Orthopedics'];
+    const specialties = [
+      "Cardiology",
+      "Pediatrics",
+      "Neurology",
+      "Dermatology",
+      "Orthopedics",
+    ];
     return specialties[Math.floor(Math.random() * specialties.length)];
   };
 
@@ -37,10 +52,16 @@ const DoctorList = () => {
 
   return (
     <Box p={8} bg="gray.50" minH="100vh">
-      <Text fontSize="3xl" textAlign="center" color="blue.800" mb={6}>
+      <Text
+        fontSize="6xl"
+        textAlign="center"
+        color="blue.800"
+        textShadow="2px 2px 5px rgba(0,0,0,0.3)"
+        mb={6}
+      >
         <FaStethoscope /> Find Your Doctor
       </Text>
-      
+
       {/* Search Box */}
       <Flex justify="center" mb={8}>
         <Input
@@ -49,13 +70,16 @@ const DoctorList = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           width="300px"
           mr={4}
-          borderColor="blue.500"
+          borderColor="pink.500"
+          _placeholder={{ color: "purple.300" }}
         />
         <Select
           placeholder="Select specialty"
           onChange={(e) => setSpecialtyFilter(e.target.value)}
           width="200px"
-          borderColor="blue.500"
+          borderColor="pink.500"
+          color="purple.300"
+          _placeholder={{ color: "purple.300" }}
         >
           <option value="Cardiology">Cardiology</option>
           <option value="Pediatrics">Pediatrics</option>
@@ -74,8 +98,8 @@ const DoctorList = () => {
             borderWidth={1}
             borderRadius="lg"
             boxShadow="lg"
-            _hover={{ transform: 'scale(1.05)', transition: 'all 0.3s ease' }}
-            bg="white"
+            _hover={{ transform: "scale(1.05)", transition: "all 0.3s ease" }}
+            bgGradient="linear(to-b, pink.900, purple.600)"
             textAlign="center"
           >
             <Image
@@ -91,7 +115,7 @@ const DoctorList = () => {
             </Text>
             <Text color="gray.500">{doctor.specialty}</Text>
             <Text color="gray.500">{doctor.location}</Text>
-            <Button colorScheme="teal" mt={4}>
+            <Button colorScheme="pink" mt={4} _hover={{ bg: "purple" }}>
               Book Appointment
             </Button>
           </Box>

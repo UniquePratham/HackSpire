@@ -95,7 +95,7 @@ const MapComponent = () => {
           <HStack spacing={4}>
             <Button
               variant="solid"
-              colorScheme="green"
+              colorScheme="pink"
               onClick={() => setShowPanel(!showPanel)}
             >
               Find Hospitals
