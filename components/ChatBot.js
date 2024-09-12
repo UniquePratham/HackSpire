@@ -109,7 +109,7 @@ export default function AIDiagnosis() {
 
     return formattedDiagnosis;
   };
-
+/* returning */
   return (
     <VStack
       as={motion.div}
