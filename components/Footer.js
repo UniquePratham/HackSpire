@@ -30,8 +30,8 @@ const Footer = () => {
     if (email) {
       emailjs
         .send(
-          "vitality_ai", // Service ID
-          "vitality_ai_template", // Template ID from EmailJS
+          "medi_map", // Service ID
+          "medi_map_template", // Template ID from EmailJS
           {
             user_email: email,
             user_name: username,
@@ -244,7 +244,7 @@ const Footer = () => {
 
       {/* Copyright */}
       <Flex justify="center" mt={4} textShadow="2px 2px 5px rgba(0,0,0,0.5)">
-        <Text fontSize="lg">&copy; 2024 VitalityAI</Text>
+        <Text fontSize="lg">&copy; 2024 MediMap</Text>
       </Flex>
     </Box>
   );

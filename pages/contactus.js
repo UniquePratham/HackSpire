@@ -59,7 +59,7 @@ export default function Contact() {
           spacing={8}
           maxW={{ base: "100%", md: "70%" }}
           margin={{ base: "0 auto", md: "0 auto" }}
-          bg="rgba(255,255,255,0.1)"
+          bg="rgba(0,0,0,0.1)"
           padding="15px"
           borderRadius="10px"
           boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
@@ -189,10 +189,24 @@ export default function Contact() {
                   placeholder="Case Number"
                   mr={2}
                   width={{ base: "100%", md: "45%" }}
+                  _placeholder={{
+                    color: "white",
+                    textShadow: "2px 2px 5px rgba(0,0,0,0.7)",
+                  }}
+                  border="2px solid grey"
+                  _hover={{ border: "3px solid grey" }}
+                  textShadow="2px 2px 5px rgba(0,0,0,0.3)"
                 />
                 <Input
                   placeholder="Email Address"
                   width={{ base: "100%", md: "45%" }}
+                  _placeholder={{
+                    color: "white",
+                    textShadow: "2px 2px 5px rgba(0,0,0,0.7)",
+                  }}
+                  border="2px solid grey"
+                  _hover={{ border: "3px solid grey" }}
+                  textShadow="2px 2px 5px rgba(0,0,0,0.3)"
                 />
               </Flex>
               <Button

@@ -59,12 +59,19 @@ export default function AIDiagnosis() {
 
       if (lines.length === 1) {
         // Single line is either a title or non-parsed text
-        formattedDiagnosis.push(<Text fontWeight="bold" mt={4}>{lines[0]}</Text>);
+        formattedDiagnosis.push(
+          <Text fontWeight="bold" mt={4}>
+            {lines[0]}
+          </Text>
+        );
       } else if (lines.length > 1) {
         // Handle key-value like structures or multiple lines in a block
         const key = lines[0].replace(":", "").trim(); // First line is treated as a key
 
-        if (key === "Characteristics of patients" && lines[1].startsWith("image:")) {
+        if (
+          key === "Characteristics of patients" &&
+          lines[1].startsWith("image:")
+        ) {
           // Handle the image separately
           const imageUrl = lines[1].replace("image:", "").trim();
           formattedDiagnosis.push(
@@ -113,22 +120,30 @@ export default function AIDiagnosis() {
       bgGradient="linear(to-b, pink.900, purple.600)"
       align="center"
       justify="center"
-      p={6}
-      spacing={[8, 12, 16]} // Responsive spacing between elements
+      p={2}
+      spacing={[4, 8, 12]} // Responsive spacing between elements
     >
       <Heading
         color="white"
-        mb={8}
+        mb={2}
         fontSize={["2xl", "3xl", "4xl"]} // Responsive font sizes
         textAlign="center" // Center text for small screens
       >
         AI Diagnosis Using Wolfram Alpha LLM API
       </Heading>
-      <Text color="white">The Wolfram Alpha LLM API combines the computational intelligence of Wolfram Alpha with natural language processing, allowing developers to integrate advanced knowledge computation, data analysis, and real-world problem-solving capabilities into applications using a natural language interface. It excels in fields like mathematics, science, engineering, and knowledge queries, delivering precise and data-driven responses to complex questions.</Text>
+      <Text color="white" textAlign="center">
+        The Wolfram Alpha LLM API combines the computational intelligence of
+        Wolfram Alpha with natural language processing, allowing developers to
+        integrate advanced knowledge computation, data analysis, and real-world
+        problem-solving capabilities into applications using a natural language
+        interface. It excels in fields like mathematics, science, engineering,
+        and knowledge queries, delivering precise and data-driven responses to
+        complex questions.
+      </Text>
 
       <Box
         bg="white"
-        p={[4, 6, 8]} // Responsive padding
+        p={[2, 4, 6]} // Responsive padding
         borderRadius="md"
         boxShadow="xl"
         w="full"
@@ -137,14 +152,21 @@ export default function AIDiagnosis() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <Text mb={4}>Enter your details and symptoms:</Text>
+        <Text mb={4} color="black" textAlign="center">
+          Enter your details and symptoms:
+        </Text>
 
         <Input
-          placeholder="Age"
+          placeholder="Enter your Age"
           mb={4}
           value={age}
           onChange={(e) => setAge(e.target.value)}
           size={["sm", "md", "lg"]} // Responsive input size
+          color="black"
+          border="2px solid black"
+          _hover={{ border: "2px solid grey" }}
+          textAlign="center"
+          _placeholder={{ color: "gray.500" }}
         />
 
         <Select
@@ -153,6 +175,10 @@ export default function AIDiagnosis() {
           value={gender}
           onChange={(e) => setGender(e.target.value)}
           size={["sm", "md", "lg"]} // Responsive select size
+          color="black"
+          border="2px solid black"
+          _hover={{ border: "2px solid grey" }}
+          textAlign="center"
         >
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -165,6 +191,11 @@ export default function AIDiagnosis() {
           value={symptoms}
           onChange={(e) => setSymptoms(e.target.value)}
           size={["sm", "md", "lg"]} // Responsive input size
+          textAlign="center"
+          color="black"
+          border="2px solid black"
+          _hover={{ border: "2px solid grey" }}
+          _placeholder={{ color: "gray.500" }}
         />
 
         <Button
@@ -183,14 +214,15 @@ export default function AIDiagnosis() {
       ) : (
         diagnosis && (
           <Box
-            mt={8}
-            p={[4, 6, 8]} // Responsive padding
+            mt={3}
+            p={[2, 4, 6]} // Responsive padding
             bg="white"
             borderRadius="md"
             shadow="xl"
             textAlign="center"
             w="full"
             maxW={["sm", "md", "lg"]} // Responsive width
+            color="black"
           >
             {formatDiagnosis(diagnosis)}
           </Box>

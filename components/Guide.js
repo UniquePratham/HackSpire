@@ -126,8 +126,8 @@ const Guide = () => {
       direction="column"
       align="center"
       p={10}
-      // bgGradient="linear(to-r, rgba(255, 255, 255, 1), rgba(0, 0, 0, 1))"
-      bg="rgba(0,0,0,0.7)"
+      // bgGradient="linear(to-b, pink.900, purple.600)"
+      bg="#0e0426"
       position="relative"
       overflow="hidden"
     >
@@ -136,9 +136,10 @@ const Guide = () => {
         top="0"
         left="50%"
         transform="translateX(-50%)"
-        width="80%" // Adjust the width for less than the full width of the component
+        width="90%" // Adjust the width for less than the full width of the component
         height="100%"
-        bg="linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))"
+        // bg="linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))"
+        bgGradient="linear(to-b, pink.900, purple.600)"
         borderRadius="lg"
         boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
         backdropFilter="blur(10px)"

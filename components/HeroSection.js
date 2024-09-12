@@ -127,7 +127,7 @@ export default function HeroSection() {
               }}
               cursor="pointer"
             >
-              Vitality AI
+              MediMap
             </Heading>
             <Text
               fontSize={["lg", "xl"]}
