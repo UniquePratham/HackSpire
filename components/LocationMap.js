@@ -90,7 +90,7 @@ const MapComponent = () => {
             fontFamily="sans-serif"
             textShadow="2px 2px 5px rgba(255,255,255,0.2)"
           >
-            Vitality AI
+            MediMap
           </Heading>
           <HStack spacing={4}>
             <Button
